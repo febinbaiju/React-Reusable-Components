@@ -5,7 +5,6 @@ export const TextField = ({
     value,
     defaultValue,
     onChange,
-    setValue,
     required,
     label,
     placeholder,
@@ -24,12 +23,13 @@ export const TextField = ({
         ...customParameters?.field
     }
     type="text"
+    name={name}
     {...(isValid === true ? { className: validClass } : { className : invalidClass })}
     value={value}
     readOnly={readonly}
     placeholder={placeholder}
     {...(defaultValue ?  {defaultValue : defaultValue } : null )}
-    onChange={setValue}
+    onChange={onChange}
     required
     />
     {
@@ -45,7 +45,7 @@ export const TextField = ({
     </>
 
     return(
-    <Form.Group
+    <Form.Group controlId="test"
     {
         ...customParameters?.group
     }
