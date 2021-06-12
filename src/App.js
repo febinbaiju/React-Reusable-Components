@@ -5,14 +5,17 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import Test from './Test';
+
+// import apps
+import './apps/forms/BaseForm'
+import BaseForm from './apps/forms/BaseForm';
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/">
-          <Test />
+        <Route path="/" exact>
+          <BaseForm />
         </Route>
       </Switch>
     </Router>
