@@ -7,15 +7,18 @@ import {
 } from "react-router-dom";
 
 // import apps
-import './apps/forms/BaseForm'
-import BaseForm from './apps/forms/BaseForm';
+import TestForm from './apps/forms/TestForm';
+import TestForm2 from './apps/forms/TestForm2';
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route path="/" exact>
-          <BaseForm />
+          <TestForm />
+        </Route>
+        <Route path="/2" exact>
+          <TestForm2 />
         </Route>
       </Switch>
     </Router>
