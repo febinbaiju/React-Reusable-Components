@@ -3,7 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { TextField } from '../../components/input/TextField'
 import { PasswordField } from '../../components/input/PasswordField'
 
-export default function BaseForm(props) {
+export default function TestForm(props) {
 
     let customParameters = {
         "group" : {
