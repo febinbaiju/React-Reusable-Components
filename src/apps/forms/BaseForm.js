@@ -1,8 +1,10 @@
+import { useFormik } from "formik";
 import { Button, Form } from "react-bootstrap";
-import { PasswordField } from "./components/input/PasswordField";
-import { TextField } from "./components/input/TextField";
+import { TextField } from '../../components/input/TextField'
+import { PasswordField } from '../../components/input/PasswordField'
 
-export default function Test(props) {
+export default function BaseForm(props) {
+
     let customParameters = {
         "group" : {
             className : "mb-3"
@@ -21,21 +23,23 @@ export default function Test(props) {
             className: "text-muted"
         }
     }
-    return(
-        <>
-        <Form noValidate onSubmit={(event)=>{
-            const form = event.currentTarget
-            console.log(form.checkValidity())
-            event.preventDefault()
-            event.stopPropagation()
-        }}
-        validated={false}
+
+
+    const formik = useFormik({
+        initialValues: {
+          name: '',
+        },
+        onSubmit: values => {
+          alert(JSON.stringify(values, null, 2));
+        },
+      });
+
+    return(<Form noValidate
+        onSubmit={formik.handleSubmit}
         >
-        <TextField name="name" placeholder="Enter Name" label="Name:" customParameters={customParameters} required {...props} />
+        <TextField name="name" value={formik.values.name} onChange={formik.handleChange} placeholder="Enter Name" label="Name:" customParameters={customParameters} required {...props} />
         <PasswordField name="password" placeholder="Enter Password" label="Password:" customParameters={customParameters} {...props} />
         <PasswordField name="confirm_password" placeholder="Confirm Password" label="Confirm Password:" customParameters={customParameters} required {...props} />
         <Button type="submit">Submit form</Button>
-        </Form>
-        </>
-    )
+        </Form>)
 }
