@@ -1,6 +1,6 @@
 import { Col, Form, Row } from "react-bootstrap"
 
-export const TextField = ({
+const TextField = ({
     name,
     value,
     defaultValue,
@@ -77,3 +77,5 @@ export const TextField = ({
        </Form.Group>
         )
 }
+
+export default TextField

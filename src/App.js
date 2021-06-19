@@ -8,7 +8,6 @@ import {
 
 // import apps
 import TestForm from './apps/forms/TestForm';
-import TestForm2 from './apps/forms/TestForm2';
 
 function App() {
   return (
@@ -16,9 +15,6 @@ function App() {
       <Switch>
         <Route path="/" exact>
           <TestForm />
-        </Route>
-        <Route path="/2" exact>
-          <TestForm2 />
         </Route>
       </Switch>
     </Router>
