@@ -62,10 +62,12 @@ export const BaseForm = (
     {
       case "TextField":
         return(React.cloneElement(element, {
-          ...(showValidStatus ? { isValid: validationStatus } : null),
-          ...(showValidStatus ? { invalidClass: element.props?.inValidClass || "is-invalid" } : null),
+          ...(showValidStatus ? { 
+            isValid: validationStatus,
+            invalidClass: element.props?.inValidClass || "is-invalid",
+            invalidText: form?.errors?.[field_name]
+          } : null),
           ...(showValidStatus && element.props?.validClass ? { validClass: element.props?.validClass } : null),
-          ...(showValidStatus ? { invalidText: form?.errors?.[field_name] } : null),
           onChange: form.handleChange,
           value: form.values.name,
           key: index
