@@ -5,7 +5,7 @@ const TextField = ({
     value,
     defaultValue,
     onChange,
-    required,
+    required = false,
     label,
     placeholder,
     readonly = false,
@@ -30,7 +30,7 @@ const TextField = ({
     placeholder={placeholder}
     {...(defaultValue ?  {defaultValue : defaultValue } : null )}
     onChange={onChange}
-    required
+    required={required}
     />
     {
         textBelow &&
