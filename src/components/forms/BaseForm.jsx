@@ -1,6 +1,8 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 import { Form } from "react-bootstrap";
+import * as Yup from 'yup';
 
 export const BaseForm = (
     {
@@ -8,13 +10,42 @@ export const BaseForm = (
         ...props        
     }
 ) => {
+  const [validation_schema, setValidationSchema] = useState({})
 
   const form = useFormik({
     initialValues: fields,
+    validationSchema: Yup.object().shape(
+      validation_schema
+    ),
       onSubmit: values => {
         alert(JSON.stringify(values, null, 2));
       },
     });
+
+    useEffect(() => {
+      console.log(validation_schema);
+    }, [validation_schema])
+
+
+  useEffect(() => {
+    var queryBuilder = {}
+    props?.children?.map((element, index) => {
+      if(element?.props?.name)
+      {
+        var validationBuilder = Yup.string()
+        if(element?.props?.required)
+        {
+          validationBuilder = validationBuilder.required(element?.props?.requiredText || "Required")
+        }
+         queryBuilder  =  {
+          ...queryBuilder,
+          [element.props.name] : validationBuilder
+        }
+      }
+      return queryBuilder
+    })
+    setValidationSchema(queryBuilder) 
+  }, [props?.children])
 
   function form_fields(element, index)
   {
@@ -30,7 +61,7 @@ export const BaseForm = (
       return(<Form noValidate
         onSubmit={form.handleSubmit}
         >
-          {props.children.map((element, index) => {
+          {props?.children?.map((element, index) => {
             return(form_fields(element, index))
           })}
         </Form>)
