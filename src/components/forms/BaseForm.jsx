@@ -22,14 +22,10 @@ export const BaseForm = (
       },
     });
 
-    useEffect(() => {
-      console.log(validation_schema);
-    }, [validation_schema])
-
 
   useEffect(() => {
     var queryBuilder = {}
-    props?.children?.map((element, index) => {
+    props?.children?.map((element) => {
       if(element?.props?.name)
       {
         var validationBuilder = Yup.string()
@@ -49,10 +45,20 @@ export const BaseForm = (
 
   function form_fields(element, index)
   {
+    let field_name = element?.props?.name
+    let showValidStatus = form?.errors ? true: false
+    let validationStatus = !form.errors?.[field_name]
+
     switch(element.type.name)
     {
       case "TextField":
-        return(React.cloneElement(element, {onChange: form.handleChange, value: form.values.name, key: index}))
+        return(React.cloneElement(element, {
+          ...(showValidStatus ? { isValid: validationStatus } : null),
+          ...(showValidStatus ? { invalidClass: element.props?.inValidClass || "is-invalid" } : null),
+          onChange: form.handleChange,
+          value: form.values.name,
+          key: index
+          }))
       default:
         return React.cloneElement(element, { key: index })
     }
