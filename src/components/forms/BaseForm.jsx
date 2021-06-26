@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { Form } from "react-bootstrap";
 import * as Yup from 'yup';
+import FieldToLabel from "../../libs/utils/FieldToLabel";
 
 export const BaseForm = (
     {
@@ -29,9 +30,17 @@ export const BaseForm = (
       if(element?.props?.name)
       {
         var validationBuilder = Yup.string()
+        if(element?.props?.min)
+        {
+          validationBuilder = validationBuilder.min(element?.props?.min,`${FieldToLabel(element?.props?.name)} should be minimum ${element?.props?.min} characters`)
+        }
+        if(element?.props?.max)
+        {
+          validationBuilder = validationBuilder.max(element?.props?.max,`${FieldToLabel(element?.props?.name)} should not be more than ${element?.props?.max} characters`)
+        }
         if(element?.props?.required)
         {
-          validationBuilder = validationBuilder.required(element?.props?.requiredText || "Required")
+          validationBuilder = validationBuilder.required(`${FieldToLabel(element?.props?.name)} is Required`)
         }
          queryBuilder  =  {
           ...queryBuilder,
@@ -56,6 +65,7 @@ export const BaseForm = (
           ...(showValidStatus ? { isValid: validationStatus } : null),
           ...(showValidStatus ? { invalidClass: element.props?.inValidClass || "is-invalid" } : null),
           ...(showValidStatus && element.props?.validClass ? { validClass: element.props?.validClass } : null),
+          ...(showValidStatus ? { invalidText: form?.errors?.[field_name] } : null),
           onChange: form.handleChange,
           value: form.values.name,
           key: index
