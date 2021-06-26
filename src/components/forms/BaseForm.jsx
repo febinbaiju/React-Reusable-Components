@@ -46,7 +46,7 @@ export const BaseForm = (
   function form_fields(element, index)
   {
     let field_name = element?.props?.name
-    let showValidStatus = form?.errors ? true: false
+    let showValidStatus = form?.errors && form.touched?.[field_name]
     let validationStatus = !form.errors?.[field_name]
 
     switch(element.type.name)
