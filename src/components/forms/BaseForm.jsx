@@ -55,6 +55,7 @@ export const BaseForm = (
         return(React.cloneElement(element, {
           ...(showValidStatus ? { isValid: validationStatus } : null),
           ...(showValidStatus ? { invalidClass: element.props?.inValidClass || "is-invalid" } : null),
+          ...(showValidStatus && element.props?.validClass ? { validClass: element.props?.validClass } : null),
           onChange: form.handleChange,
           value: form.values.name,
           key: index
