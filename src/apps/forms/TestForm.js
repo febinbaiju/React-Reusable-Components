@@ -26,11 +26,13 @@ export default function TestForm(props) {
     let fields = {
         first_name: '',
         last_name: '',
+        address: ''
       }
 
     return(<BaseForm fields={fields}>
         <TextField name="first_name" placeholder="Enter First Name" label="First Name" customParameters={customParameters} required min={5} max={10} {...props} />
         <TextField name="last_name" placeholder="Enter Last Name" label="Last Name" customParameters={customParameters} required {...props} />
+        <TextField name="address" placeholder="Enter Address" label="Address" customParameters={customParameters} {...props} />
         <Button type="submit">Submit form</Button>
         </BaseForm>)
 }
