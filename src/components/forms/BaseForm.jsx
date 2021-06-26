@@ -30,6 +30,14 @@ export const BaseForm = (
       if(element?.props?.name)
       {
         var validationBuilder = Yup.string()
+        if(element?.props?.min)
+        {
+          validationBuilder = validationBuilder.min(element?.props?.min,`${FieldToLabel(element?.props?.name)} should be minimum ${element?.props?.min} characters`)
+        }
+        if(element?.props?.max)
+        {
+          validationBuilder = validationBuilder.max(element?.props?.max,`${FieldToLabel(element?.props?.name)} should not be more than ${element?.props?.max} characters`)
+        }
         if(element?.props?.required)
         {
           validationBuilder = validationBuilder.required(`${FieldToLabel(element?.props?.name)} is Required`)
