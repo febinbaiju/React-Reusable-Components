@@ -15,8 +15,12 @@ const TextField = ({
     isValid,
     validClass,
     invalidClass,
+    invalidText,
     ...props
 }) =>{
+
+    const showValidation = isValid !== null && isValid !== undefined && !isValid
+
     const field = <>
     <Form.Control
     {
@@ -42,6 +46,13 @@ const TextField = ({
         {textBelow}
         </Form.Text>
     }
+        {
+        (showValidation) &&
+        <Form.Text className="invalid-feedback"
+        >
+        {invalidText || `${name} is invalid`}
+        </Form.Text>
+    }
     </>
 
     return(
@@ -58,7 +69,7 @@ const TextField = ({
     }
     {...(sameRow ? { column: true } : null )} 
     >
-      {label}
+      {label}{required === true ? <span className="text-danger">*</span> : null} :
     </Form.Label>
     :
     null

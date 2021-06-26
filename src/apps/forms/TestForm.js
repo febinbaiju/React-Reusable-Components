@@ -29,8 +29,8 @@ export default function TestForm(props) {
       }
 
     return(<BaseForm fields={fields}>
-        <TextField name="first_name" placeholder="Enter First Name" label="First Name:" customParameters={customParameters} required {...props} />
-        <TextField name="last_name" placeholder="Enter Last Name" label="Last Name:" customParameters={customParameters} required {...props} />
+        <TextField name="first_name" placeholder="Enter First Name" label="First Name" customParameters={customParameters} required requiredText="this is required text" {...props} />
+        <TextField name="last_name" placeholder="Enter Last Name" label="Last Name" customParameters={customParameters} required {...props} />
         <Button type="submit">Submit form</Button>
         </BaseForm>)
 }
