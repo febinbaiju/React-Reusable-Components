@@ -29,18 +29,25 @@ export default function TestForm(props) {
         address: ''
       }
 
+    
     let validation_parameters = [
         {
             'compare': 'first_name',
             'compare_to': 'last_name',
             'operation': '!=',
             'message': 'First Name should not be same as Last Name'
+        },
+        {
+            'compare': 'last_name',
+            'compare_to': 'address',
+            'operation': '!=',
+            'message': 'First Name, Last name and address should not be same'
         }
     ]
 
     return(<BaseForm fields={fields} fields_validation_rules={validation_parameters}>
         <TextField name="first_name" placeholder="Enter First Name" label="First Name" customParameters={customParameters} required min={5} max={10} {...props} />
-        <TextField name="last_name" placeholder="Enter Last Name" label="Last Name" customParameters={customParameters} required max={2} {...props} />
+        <TextField name="last_name" placeholder="Enter Last Name" label="Last Name" customParameters={customParameters} required max={10} {...props} />
         <TextField name="address" placeholder="Enter Address" label="Address" customParameters={customParameters} {...props} />
         <Button type="submit">Submit form</Button>
         </BaseForm>)
