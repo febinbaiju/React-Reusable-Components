@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 export default function TestForm(props) {
 
-    const [form_values, setFormValues] = useState()
+    const [form_values, setFormValues] = useState({})
 
     let customParameters = {
         "group" : {
@@ -37,8 +37,17 @@ export default function TestForm(props) {
         {
             'compare': 'first_name',
             'compare_to': 'last_name',
+            'operation': '=i',
+            'message': 'First Name should be same as Last Name'
+        }
+    ]
+
+    let single_element_validation = [
+        {
+            'field': 'first_name',
             'operation': '!=',
-            'message': 'First Name should not be same as Last Name'
+            'compare_to_value': 'febin',
+            'message': 'Should not be equal'
         }
     ]
     
@@ -47,7 +56,7 @@ export default function TestForm(props) {
         console.log(form_values);
     }, [form_values])
 
-    return(<BaseForm fields={fields} fields_validation_rules={validation_parameters} set_form_values={setFormValues}>
+    return(<BaseForm fields={fields} multiple_fields_validation_rules={validation_parameters} set_form_values={setFormValues} individual_fields_validation_rules={single_element_validation}>
         <TextField name="first_name" placeholder="Enter First Name" label="First Name" customParameters={customParameters} required min={5} max={10} {...props} />
         <TextField name="last_name" placeholder="Enter Last Name" label="Last Name" customParameters={customParameters} required max={10} {...props} />
         <TextField name="address" placeholder="Enter Address" label="Address" customParameters={customParameters} {...props} />
