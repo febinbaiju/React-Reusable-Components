@@ -5,7 +5,7 @@ export function EqualStringFields(compare_with, message)
 
     const args = [compare_with, message]
 
-    return Yup.string().test("areFieldsEqual", args, function(value)
+    return Yup.string().test("EqualStringFields", args, function(value)
     {
         const { path, createError } = this;
 
@@ -22,7 +22,7 @@ export function NotEqualStringFields(compare_with, message)
 
     const args = [compare_with, message]
 
-    return Yup.string().test("areFieldsEqual", args, function(value)
+    return Yup.string().test("NotEqualStringFields", args, function(value)
     {
         const { path, createError } = this;
 

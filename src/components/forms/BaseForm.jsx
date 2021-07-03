@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Form } from "react-bootstrap";
 import * as Yup from 'yup';
 import FieldToLabel from "../../libs/utils/FieldToLabel";
-import { EqualStringFields, NotEqualStringFields } from "./helpers/StringValidationHelpers";
+import { EqualStringFields, NotEqualStringFields } from "./helpers/validation/multiple_elements/StringValidationHelpers";
 
 export const BaseForm = (
     {
@@ -29,12 +29,14 @@ export const BaseForm = (
   useEffect(() => {
     var queryBuilder = {}
     props?.children?.map((element) => {
+      const stringElement = ["TextField"].includes(element?.type?.name)
+
       if(element?.props?.name)
       {
         var validationBuilder = Yup.string()
         const form_fields = form.values
 
-
+      // Basic Multiple elements validations
        Object.keys(fields_validation_rules).filter((key) => {
          return fields_validation_rules[key].compare_to === element?.props?.name
         }).map((key) => {
@@ -49,10 +51,12 @@ export const BaseForm = (
     
           switch(field_operation)
           {
-            case '=':
+            case '=': // TODO: = operator does not seems to be working with min, max, required fields
+              if(stringElement)
               validationBuilder = validationBuilder.EqualStringFields(field1_value, field_message || `${FieldToLabel(element?.props?.name)} should be same as ${FieldToLabel(field_to_compare)}`)
               break
             case '!=':
+              if(stringElement)
               validationBuilder = validationBuilder.NotEqualStringFields(field1_value, field_message || `${FieldToLabel(element?.props?.name)} should be same as ${FieldToLabel(field_to_compare)}`)
               break
             default:
@@ -61,7 +65,8 @@ export const BaseForm = (
           
           return validationBuilder
         })
-
+      
+        // basic min, max, required single element validations
         if(element?.props?.min)
         {
           validationBuilder = validationBuilder.min(element?.props?.min,`${FieldToLabel(element?.props?.name)} should be minimum ${element?.props?.min} characters`)
