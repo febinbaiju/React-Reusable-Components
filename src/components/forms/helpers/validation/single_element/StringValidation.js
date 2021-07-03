@@ -64,7 +64,7 @@ export function EqualRegexStringField(regex, message)
 
         if(value)
         {
-            if (args[0].toString().test(value)) {
+            if (!new RegExp(args[0]).test(value)) {
                 return createError({ path, message: args[1] });
             }
         }
@@ -85,7 +85,7 @@ export function NotEqualRegexStringField(regex, message)
 
         if(value)
         {
-            if (!args[0].toString().test(value)) {
+            if (new RegExp(args[0]).test(value)) {
                 return createError({ path, message: args[1] });
             }
         }

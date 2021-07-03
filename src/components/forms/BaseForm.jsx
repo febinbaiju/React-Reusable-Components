@@ -5,7 +5,7 @@ import { Form } from "react-bootstrap";
 import * as Yup from 'yup';
 import FieldToLabel from "../../libs/utils/FieldToLabel";
 import { EqualStringFields, NotEqualStringFields } from "./helpers/validation/multiple_elements/StringValidationHelpers";
-import { EqualStringField, NotEqualRegexStringField, NotEqualStringField } from "./helpers/validation/single_element/StringValidation";
+import { EqualRegexStringField, EqualStringField, NotEqualRegexStringField, NotEqualStringField } from "./helpers/validation/single_element/StringValidation";
 
 export const BaseForm = (
     {
@@ -110,6 +110,14 @@ export const BaseForm = (
               if(stringElement)
               validationBuilder = validationBuilder.NotEqualStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should not be same as ${field_value})}`, false)
               break
+            case '=regex':
+              if(stringElement)
+              validationBuilder = validationBuilder.EqualRegexStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should match the pattern ${field_value})}`)
+              break
+            case '!=regex':
+              if(stringElement)
+              validationBuilder = validationBuilder.NotEqualRegexStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should not match the pattern ${field_value})}`)
+              break
             default:
               throw Error('Invalid Operation found for Field Validation')
           }
@@ -141,10 +149,13 @@ export const BaseForm = (
     setValidationSchema(queryBuilder) 
   }, [props?.children, multiple_fields_validation_rules, individual_fields_validation_rules, form?.values, set_form_values])
 
+  // string fields validation declaration
   Yup.addMethod(Yup.string, "EqualStringFields", EqualStringFields);
   Yup.addMethod(Yup.string, "NotEqualStringFields", NotEqualStringFields);
   Yup.addMethod(Yup.string, "NotEqualStringField", NotEqualStringField);
   Yup.addMethod(Yup.string, "EqualStringField", EqualStringField)
+  Yup.addMethod(Yup.string, "EqualRegexStringField", EqualRegexStringField)
+  Yup.addMethod(Yup.string, "NotEqualRegexStringField", NotEqualRegexStringField)
 
   function form_fields(element, index)
   {
