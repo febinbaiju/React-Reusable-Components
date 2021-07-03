@@ -4,10 +4,12 @@ import { useEffect } from "react";
 import { Form } from "react-bootstrap";
 import * as Yup from 'yup';
 import FieldToLabel from "../../libs/utils/FieldToLabel";
+import { EqualStringFields, NotEqualStringFields } from "./helpers/StringValidationHelpers";
 
 export const BaseForm = (
     {
       fields = {},
+      fields_validation_rules = {},
         ...props        
     }
 ) => {
@@ -30,6 +32,36 @@ export const BaseForm = (
       if(element?.props?.name)
       {
         var validationBuilder = Yup.string()
+        const form_fields = form.values
+
+
+       Object.keys(fields_validation_rules).filter((key) => {
+         return fields_validation_rules[key].compare_to === element?.props?.name
+        }).map((key) => {
+          const rule = fields_validation_rules[key]
+    
+          const field_to_compare = rule['compare']
+          const field_operation = rule['operation']
+          const field_message = rule['message']
+    
+          const field1_value = form_fields[field_to_compare]
+
+    
+          switch(field_operation)
+          {
+            case '=':
+              validationBuilder = validationBuilder.EqualStringFields(field1_value, field_message || `${FieldToLabel(element?.props?.name)} should be same as ${FieldToLabel(field_to_compare)}`)
+              break
+            case '!=':
+              validationBuilder = validationBuilder.NotEqualStringFields(field1_value, field_message || `${FieldToLabel(element?.props?.name)} should be same as ${FieldToLabel(field_to_compare)}`)
+              break
+            default:
+              throw Error('Invalid Operation found for Field Validation')
+          }
+          
+          return validationBuilder
+        })
+
         if(element?.props?.min)
         {
           validationBuilder = validationBuilder.min(element?.props?.min,`${FieldToLabel(element?.props?.name)} should be minimum ${element?.props?.min} characters`)
@@ -50,7 +82,10 @@ export const BaseForm = (
       return queryBuilder
     })
     setValidationSchema(queryBuilder) 
-  }, [props?.children])
+  }, [props?.children, fields_validation_rules, form?.values])
+
+  Yup.addMethod(Yup.string, "EqualStringFields", EqualStringFields);
+  Yup.addMethod(Yup.string, "NotEqualStringFields", NotEqualStringFields);
 
   function form_fields(element, index)
   {
