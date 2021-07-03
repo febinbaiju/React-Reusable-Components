@@ -10,6 +10,7 @@ export const BaseForm = (
     {
       fields = {},
       fields_validation_rules = {},
+      set_form_values = null,
         ...props        
     }
 ) => {
@@ -35,6 +36,11 @@ export const BaseForm = (
       {
         var validationBuilder = Yup.string()
         const form_fields = form.values
+
+        if(typeof set_form_values === "function")
+        {
+          set_form_values(form_fields)
+        }
 
       // Basic Multiple elements validations
        Object.keys(fields_validation_rules).filter((key) => {
@@ -87,7 +93,7 @@ export const BaseForm = (
       return queryBuilder
     })
     setValidationSchema(queryBuilder) 
-  }, [props?.children, fields_validation_rules, form?.values])
+  }, [props?.children, fields_validation_rules, form?.values, set_form_values])
 
   Yup.addMethod(Yup.string, "EqualStringFields", EqualStringFields);
   Yup.addMethod(Yup.string, "NotEqualStringFields", NotEqualStringFields);
