@@ -45,9 +45,9 @@ export default function TestForm(props) {
     let single_element_validation = [
         {
             'field': 'first_name',
-            'operation': '!=',
-            'compare_to_value': 'febin',
-            'message': 'Should not be equal'
+            'operation': '!=regex',
+            'compare_to_value': "^$|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
+            //'message': 'Should not be equal'
         }
     ]
     
