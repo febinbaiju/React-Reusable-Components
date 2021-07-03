@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Form } from "react-bootstrap";
 import * as Yup from 'yup';
 import FieldToLabel from "../../libs/utils/FieldToLabel";
-import { EqualStringFields, NotEqualStringFields } from "./helpers/validation/multiple_elements/StringValidationHelpers";
+import { EqualStringFields, NotEqualStringFields } from "./helpers/validation/multiple_elements/StringValidation";
 import { EqualRegexStringField, EqualStringField, NotEqualRegexStringField, NotEqualStringField } from "./helpers/validation/single_element/StringValidation";
 
 export const BaseForm = (
@@ -96,31 +96,33 @@ export const BaseForm = (
           {
             case '=i':
               if(stringElement)
-              validationBuilder = validationBuilder.EqualStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should be same as ${field_value}}`, false)
+              validationBuilder = validationBuilder.EqualStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should be same as ${field_value}`, false)
               break
             case '=':
               if(stringElement)
-              validationBuilder = validationBuilder.EqualStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should be same as ${field_value}}`)
+              validationBuilder = validationBuilder.EqualStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should be same as ${field_value}`)
               break
             case '!=':
               if(stringElement)
-              validationBuilder = validationBuilder.NotEqualStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should not be same as ${field_value})}`)
+              validationBuilder = validationBuilder.NotEqualStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should not be same as ${field_value}`)
               break
             case '!=i':
               if(stringElement)
-              validationBuilder = validationBuilder.NotEqualStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should not be same as ${field_value})}`, false)
+              validationBuilder = validationBuilder.NotEqualStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should not be same as ${field_value}`, false)
               break
             case '=regex':
               if(stringElement)
-              validationBuilder = validationBuilder.EqualRegexStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should match the pattern ${field_value})}`)
+              validationBuilder = validationBuilder.EqualRegexStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should match the pattern ${field_value}`)
               break
             case '!=regex':
               if(stringElement)
-              validationBuilder = validationBuilder.NotEqualRegexStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should not match the pattern ${field_value})}`)
+              validationBuilder = validationBuilder.NotEqualRegexStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should not match the pattern ${field_value}`)
               break
             default:
               throw Error('Invalid Operation found for Field Validation')
           }
+
+          console.log(validationBuilder);
           
           return validationBuilder
         })
