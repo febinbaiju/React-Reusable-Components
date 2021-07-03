@@ -5,11 +5,13 @@ import { Form } from "react-bootstrap";
 import * as Yup from 'yup';
 import FieldToLabel from "../../libs/utils/FieldToLabel";
 import { EqualStringFields, NotEqualStringFields } from "./helpers/validation/multiple_elements/StringValidationHelpers";
+import { EqualStringField, NotEqualRegexStringField, NotEqualStringField } from "./helpers/validation/single_element/StringValidation";
 
 export const BaseForm = (
     {
       fields = {},
-      fields_validation_rules = {},
+      multiple_fields_validation_rules = {},
+      individual_fields_validation_rules = {},
       set_form_values = null,
         ...props        
     }
@@ -43,10 +45,10 @@ export const BaseForm = (
         }
 
       // Basic Multiple elements validations
-       Object.keys(fields_validation_rules).filter((key) => {
-         return fields_validation_rules[key].compare_to === element?.props?.name
+       Object.keys(multiple_fields_validation_rules).filter((key) => {
+         return multiple_fields_validation_rules[key].compare_to === element?.props?.name
         }).map((key) => {
-          const rule = fields_validation_rules[key]
+          const rule = multiple_fields_validation_rules[key]
     
           const field_to_compare = rule['compare']
           const field_operation = rule['operation']
@@ -57,9 +59,17 @@ export const BaseForm = (
     
           switch(field_operation)
           {
-            case '=': // TODO: = operator does not seems to be working with min, max, required fields
+            case '=i': // TODO: = operator does not seems to be working with min, max, required fields
+              if(stringElement)
+              validationBuilder = validationBuilder.EqualStringFields(field1_value, field_message || `${FieldToLabel(element?.props?.name)} should be same as ${FieldToLabel(field_to_compare)}`, false)
+              break
+            case '=':
               if(stringElement)
               validationBuilder = validationBuilder.EqualStringFields(field1_value, field_message || `${FieldToLabel(element?.props?.name)} should be same as ${FieldToLabel(field_to_compare)}`)
+              break  
+            case '!=i':
+              if(stringElement)
+              validationBuilder = validationBuilder.NotEqualStringFields(field1_value, field_message || `${FieldToLabel(element?.props?.name)} should be same as ${FieldToLabel(field_to_compare)}`, false)
               break
             case '!=':
               if(stringElement)
@@ -71,6 +81,42 @@ export const BaseForm = (
           
           return validationBuilder
         })
+
+        // single element validations
+        Object.keys(individual_fields_validation_rules).filter((key) => {
+          return individual_fields_validation_rules[key].field === element?.props?.name
+         }).map((key) => {
+          const rule = individual_fields_validation_rules[key]
+    
+          const field_value = rule['compare_to_value']
+          const field_operation = rule['operation']
+          const field_message = rule['message']
+
+          switch(field_operation)
+          {
+            case '=i':
+              if(stringElement)
+              validationBuilder = validationBuilder.EqualStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should be same as ${field_value}}`, false)
+              break
+            case '=':
+              if(stringElement)
+              validationBuilder = validationBuilder.EqualStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should be same as ${field_value}}`)
+              break
+            case '!=':
+              if(stringElement)
+              validationBuilder = validationBuilder.NotEqualStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should not be same as ${field_value})}`)
+              break
+            case '!=i':
+              if(stringElement)
+              validationBuilder = validationBuilder.NotEqualStringField(field_value, field_message || `${FieldToLabel(element?.props?.name)} should not be same as ${field_value})}`, false)
+              break
+            default:
+              throw Error('Invalid Operation found for Field Validation')
+          }
+          
+          return validationBuilder
+        })
+
       
         // basic min, max, required single element validations
         if(element?.props?.min)
@@ -93,10 +139,12 @@ export const BaseForm = (
       return queryBuilder
     })
     setValidationSchema(queryBuilder) 
-  }, [props?.children, fields_validation_rules, form?.values, set_form_values])
+  }, [props?.children, multiple_fields_validation_rules, individual_fields_validation_rules, form?.values, set_form_values])
 
   Yup.addMethod(Yup.string, "EqualStringFields", EqualStringFields);
   Yup.addMethod(Yup.string, "NotEqualStringFields", NotEqualStringFields);
+  Yup.addMethod(Yup.string, "NotEqualStringField", NotEqualStringField);
+  Yup.addMethod(Yup.string, "EqualStringField", EqualStringField)
 
   function form_fields(element, index)
   {
