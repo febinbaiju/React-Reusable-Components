@@ -1,53 +1,51 @@
-import * as Yup from 'yup';
+export function EqualStringFields(
+  compare_with,
+  message,
+  case_sensitive = true,
+  obj
+) {
+  var args = [compare_with, message];
 
-export function EqualStringFields(compare_with, message, case_sensitive = true)
-{
+  return obj.test("EqualStringFields", args, function (value) {
+    const { path, createError } = this;
 
-    var args = [compare_with, message]
+    if (value) {
+      if (!case_sensitive) {
+        args[0] = args[0].toString().toLowerCase();
+        value = value.toString().toLowerCase();
+      }
 
-    return Yup.string().test("EqualStringFields", args, function(value)
-    {
-        const { path, createError } = this;
+      if (args[0].toString().localeCompare(value) !== 0) {
+        return createError({ path, message: args[1] });
+      }
+    }
 
-        if(value)
-        {
-            if(!case_sensitive)
-            {
-                 args[0] = args[0].toString().toLowerCase()
-                 value = value.toString().toLowerCase()
-            }
-
-            if (args[0].toString().localeCompare(value) !== 0) {
-                return createError({ path, message: args[1] });
-            }
-        }
-        
-        return true;
-    })
+    return true;
+  });
 }
 
-export function NotEqualStringFields(compare_with, message, case_sensitive = true)
-{
+export function NotEqualStringFields(
+  compare_with,
+  message,
+  case_sensitive = true,
+  obj
+) {
+  var args = [compare_with, message];
 
-    var args = [compare_with, message]
+  return obj.test("NotEqualStringFields", args, function (value) {
+    const { path, createError } = this;
 
-    return Yup.string().test("NotEqualStringFields", args, function(value)
-    {
-        const { path, createError } = this;
+    if (value) {
+      if (!case_sensitive) {
+        args[0] = args[0].toString().toLowerCase();
+        value = value.toString().toLowerCase();
+      }
 
-        if(value)
-        {
-            if(!case_sensitive)
-            {
-                args[0] = args[0].toString().toLowerCase()
-                value = value.toString().toLowerCase()
-            }
-            
-            if (args[0].toString().localeCompare(value) === 0) {
-                return createError({ path, message: args[1] });
-            }
-        }
-        
-        return true;
-    })
+      if (args[0].toString().localeCompare(value) === 0) {
+        return createError({ path, message: args[1] });
+      }
+    }
+
+    return true;
+  });
 }
