@@ -33,8 +33,14 @@ export default function TestForm(props) {
     {
       compare: "first_name",
       compare_to: "last_name",
-      operation: "=i",
-      message: "First Name should be same as Last Name",
+      operation: "!=i",
+      message: "First Name should not be same as Last Name",
+    },
+    {
+      compare: "first_name",
+      compare_to: "address",
+      operation: "!=i",
+      message: "First Name should not be same as the Address",
     },
   ];
 
