@@ -41,7 +41,7 @@ export default function TestForm(props) {
   let single_element_validation = [
     {
       field: "first_name",
-      operation: "!=",
+      operation: "!=i",
       compare_to_value: "febin",
       //'message': 'Should not be equal'
     },

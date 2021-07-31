@@ -71,7 +71,8 @@ export const BaseForm = ({
                       `${FieldToLabel(
                         element?.props?.name
                       )} should be same as ${FieldToLabel(field_to_compare)}`,
-                    false
+                    false,
+                    validationBuilder
                   );
                 break;
               case "=":
@@ -81,7 +82,8 @@ export const BaseForm = ({
                     field_message ||
                       `${FieldToLabel(
                         element?.props?.name
-                      )} should be same as ${FieldToLabel(field_to_compare)}`
+                      )} should be same as ${FieldToLabel(field_to_compare)}`,
+                    validationBuilder
                   );
                 break;
               case "!=i":
@@ -92,7 +94,8 @@ export const BaseForm = ({
                       `${FieldToLabel(
                         element?.props?.name
                       )} should be same as ${FieldToLabel(field_to_compare)}`,
-                    false
+                    false,
+                    validationBuilder
                   );
                 break;
               case "!=":
@@ -102,7 +105,8 @@ export const BaseForm = ({
                     field_message ||
                       `${FieldToLabel(
                         element?.props?.name
-                      )} should be same as ${FieldToLabel(field_to_compare)}`
+                      )} should be same as ${FieldToLabel(field_to_compare)}`,
+                    validationBuilder
                   );
                 break;
               default:
@@ -136,7 +140,8 @@ export const BaseForm = ({
                       `${FieldToLabel(
                         element?.props?.name
                       )} should be same as ${field_value}`,
-                    false
+                    false,
+                    validationBuilder
                   );
                 break;
               case "=":
@@ -146,7 +151,8 @@ export const BaseForm = ({
                     field_message ||
                       `${FieldToLabel(
                         element?.props?.name
-                      )} should be same as ${field_value}`
+                      )} should be same as ${field_value}`,
+                    validationBuilder
                   );
                 break;
               case "!=":
@@ -156,19 +162,23 @@ export const BaseForm = ({
                     field_message ||
                       `${FieldToLabel(
                         element?.props?.name
-                      )} should not be same as ${field_value}`
+                      )} should not be same as ${field_value}`,
+                    validationBuilder
                   );
                 break;
               case "!=i":
-                if (stringElement)
+                if (stringElement) {
                   validationBuilder = validationBuilder.NotEqualStringField(
                     field_value,
                     field_message ||
                       `${FieldToLabel(
                         element?.props?.name
                       )} should not be same as ${field_value}`,
-                    false
+                    false,
+                    validationBuilder
                   );
+                }
+
                 break;
               case "=regex":
                 if (stringElement)
@@ -177,25 +187,26 @@ export const BaseForm = ({
                     field_message ||
                       `${FieldToLabel(
                         element?.props?.name
-                      )} should match the pattern ${field_value}`
+                      )} should match the pattern ${field_value}`,
+                    validationBuilder
                   );
                 break;
               case "!=regex":
-                if (stringElement)
+                if (stringElement) {
                   validationBuilder =
                     validationBuilder.NotEqualRegexStringField(
                       field_value,
                       field_message ||
                         `${FieldToLabel(
                           element?.props?.name
-                        )} should not match the pattern ${field_value}`
+                        )} should not match the pattern ${field_value}`,
+                      validationBuilder
                     );
+                }
                 break;
               default:
                 throw Error("Invalid Operation found for Field Validation");
             }
-
-            console.log(validationBuilder);
 
             return validationBuilder;
           });

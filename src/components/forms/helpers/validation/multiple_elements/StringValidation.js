@@ -1,13 +1,12 @@
-import * as Yup from "yup";
-
 export function EqualStringFields(
   compare_with,
   message,
-  case_sensitive = true
+  case_sensitive = true,
+  obj
 ) {
   var args = [compare_with, message];
 
-  return Yup.string().test("EqualStringFields", args, function (value) {
+  return obj.test("EqualStringFields", args, function (value) {
     const { path, createError } = this;
 
     if (value) {
@@ -28,11 +27,12 @@ export function EqualStringFields(
 export function NotEqualStringFields(
   compare_with,
   message,
-  case_sensitive = true
+  case_sensitive = true,
+  obj
 ) {
   var args = [compare_with, message];
 
-  return Yup.string().test("NotEqualStringFields", args, function (value) {
+  return obj.test("NotEqualStringFields", args, function (value) {
     const { path, createError } = this;
 
     if (value) {

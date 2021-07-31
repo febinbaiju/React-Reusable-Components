@@ -1,9 +1,12 @@
-import * as Yup from "yup";
-
-export function EqualStringField(compare_with, message, case_sensitive = true) {
+export function EqualStringField(
+  compare_with,
+  message,
+  case_sensitive = true,
+  obj
+) {
   var args = [compare_with, message];
 
-  return Yup.string().test("EqualStringField", args, function (value) {
+  return obj.test("EqualStringField", args, function (value) {
     const { path, createError } = this;
 
     if (value) {
@@ -24,11 +27,12 @@ export function EqualStringField(compare_with, message, case_sensitive = true) {
 export function NotEqualStringField(
   compare_with,
   message,
-  case_sensitive = true
+  case_sensitive = true,
+  obj
 ) {
   var args = [compare_with, message];
 
-  return Yup.string().test("NotEqualStringField", args, function (value) {
+  return obj.test("NotEqualStringField", args, function (value) {
     const { path, createError } = this;
 
     if (value) {
@@ -46,10 +50,10 @@ export function NotEqualStringField(
   });
 }
 
-export function EqualRegexStringField(regex, message) {
+export function EqualRegexStringField(regex, message, obj) {
   var args = [regex, message];
 
-  return Yup.string().test("EqualRegexStringField", args, function (value) {
+  return obj.test("EqualRegexStringField", args, function (value) {
     const { path, createError } = this;
 
     if (value) {
@@ -62,10 +66,10 @@ export function EqualRegexStringField(regex, message) {
   });
 }
 
-export function NotEqualRegexStringField(regex, message) {
+export function NotEqualRegexStringField(regex, message, obj) {
   var args = [regex, message];
 
-  return Yup.string().test("NotEqualRegexStringField", args, function (value) {
+  return obj.test("NotEqualRegexStringField", args, function (value) {
     const { path, createError } = this;
 
     if (value) {
