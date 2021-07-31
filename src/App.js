@@ -1,13 +1,9 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // import apps
-import TestForm from './apps/forms/TestForm';
+import TestForm from "./apps/forms/TestForm";
 
 function App() {
   return (
