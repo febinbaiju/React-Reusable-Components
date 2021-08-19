@@ -11,6 +11,7 @@ export default function PasswordConfirmation(props) {
       ...value,
       [e.target.name]: e.target.value,
     });
+    props?.onChange(e);
   };
 
   useEffect(() => {
