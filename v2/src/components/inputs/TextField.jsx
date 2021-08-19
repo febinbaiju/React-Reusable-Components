@@ -4,7 +4,7 @@ import {
   validateNumber,
   validateEmail,
   validateFloatNumber,
-} from "../../utils/convertors";
+} from "../../lib/utils/convertors";
 import lodash from "lodash";
 
 export default function TextField(props) {
