@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useMemo, useState } from "react";
 import {
   convertFieldName,
   validateNumber,
@@ -10,18 +10,19 @@ import lodash from "lodash";
 export default function TextField(props) {
   const [value, setValue] = useState(props?.value || null);
   const [prevSaveTrigger, setPrevSaveTrigger] = useState(props?.saveTrigger);
-  const [runValidations, setRunValidations] = useState(false);
   const [valid, setValid] = useState(false);
   const [invalidMessages, setInvalidMessages] = useState({
     message: "",
     validated: true,
   });
+  const [showValidations, setShowValidations] = useState(false);
+  const runValidations = useMemo(() => true);
 
   useEffect(() => {
     if (props?.saveTrigger !== prevSaveTrigger) {
       setPrevSaveTrigger(props?.saveTrigger);
       // run validations
-      setRunValidations(true);
+      setShowValidations(true);
     }
   }, [props?.saveTrigger]);
 
@@ -149,7 +150,7 @@ export default function TextField(props) {
         value={value}
         onChange={onChange}
       />
-      {props?.showValidation !== false ? (
+      {props?.showValidation !== false && showValidations ? (
         <div
           style={{
             color: "red",

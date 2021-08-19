@@ -19,11 +19,9 @@ function validateEmail(email) {
   return re.test(String(email).toLowerCase());
 }
 
-function validateFloatNumber(number, limit = 2)
-{
-    const re = /^\d*[\.,]\d*(?:,\d*[\.,]\d*)*$/;
-    return re.test(number)
-
+function validateFloatNumber(number, limit = 2) {
+  const re = /^\d*[\.,]\d*(?:,\d*[\.,]\d*)*$/;
+  return re.test(number);
 }
 
 export { convertFieldName, validateNumber, validateEmail, validateFloatNumber };
