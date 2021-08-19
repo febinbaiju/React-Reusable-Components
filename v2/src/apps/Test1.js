@@ -9,16 +9,19 @@ export default function Test1(props) {
   const [validStatus, setValidStatus] = useState();
 
   const onChange = (e) => {
-    setValue(e.target.value);
+    setValue({
+      ...value,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  useEffect(()=>{
-    api.get('/api/test').then(([success, response])=>{
-      console.log("test", response, success)
-    }).catch(err => {
-      console.log(err);
-    })
-  },[])
+  // useEffect(()=>{
+  //   api.get('/api/test').then(([success, response])=>{
+  //     console.log("test", response, success)
+  //   }).catch(err => {
+  //     console.log(err);
+  //   })
+  // },[])
 
   const handleSubmit = () => {
     // required
@@ -29,6 +32,7 @@ export default function Test1(props) {
 
     if (validated) {
       alert("Valid");
+      console.log(value);
     } else {
       alert("Invalid");
     }
@@ -94,6 +98,7 @@ export default function Test1(props) {
         min={2}
       />
       <PasswordConfirmation
+        onChange={onChange}
         saveTrigger={saveTrigger}
         validStatus={validStatus}
         setValidStatus={setValidStatus}
