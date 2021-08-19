@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from "react";
 import PasswordConfirmation from "../components/inputs/PasswordConfirmation";
 import TextField from "../components/inputs/TextField";
+import { api } from "../lib/api/base";
 
 export default function Test1(props) {
   const [value, setValue] = useState();
@@ -10,6 +11,14 @@ export default function Test1(props) {
   const onChange = (e) => {
     setValue(e.target.value);
   };
+
+  useEffect(()=>{
+    api.get('/api/test').then(([success, response])=>{
+      console.log("test", response, success)
+    }).catch(err => {
+      console.log(err);
+    })
+  },[])
 
   const handleSubmit = () => {
     // required
