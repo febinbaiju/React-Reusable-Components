@@ -1,4 +1,3 @@
-import { values } from "lodash";
 import { React, useEffect, useState } from "react";
 import TextField from "./TextField";
 
@@ -28,12 +27,10 @@ export default function PasswordConfirmation(props) {
         props?.setValidStatus({
           confirmation_password: false,
         });
-      }
-      else
-      {
+      } else {
         props?.setValidStatus({
-            confirmation_password: true,
-          });
+          confirmation_password: true,
+        });
       }
     }
   }, [value, runValidations]);

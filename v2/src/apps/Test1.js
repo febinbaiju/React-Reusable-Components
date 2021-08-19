@@ -23,7 +23,6 @@ export default function Test1(props) {
   const handleSubmit = () => {
     // required
     setSaveTrigger(saveTrigger + 1);
-    console.log(validStatus);
     const validated =
       validStatus &&
       !Object.keys(validStatus).some((item) => validStatus[item] === false);
