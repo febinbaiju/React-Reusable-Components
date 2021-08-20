@@ -8,10 +8,11 @@ import { TimePickerComponent } from "@syncfusion/ej2-react-calendars";
 import lodash from "lodash";
 import { useMemo } from "react";
 import { convertFieldName } from "../../lib/utils/convertors";
+import PropTypes from "prop-types";
 
 enableRipple(true);
 
-export default function DatePicker(props) {
+export default function TimePicker(props) {
   const [value, setValue] = useState(props?.value || null);
   const [prevSaveTrigger, setPrevSaveTrigger] = useState(props?.saveTrigger);
   const [valid, setValid] = useState(false);
@@ -74,27 +75,46 @@ export default function DatePicker(props) {
   }, [props?.required, value]);
 
   return (
-    <>
-      <TimePickerComponent
-        {...(props?.className ? { className: props?.className } : null)}
-        placeholder={props?.placeholder || "Select a Time"}
-        {...(props?.value ? { value: props?.value } : null)}
-        {...(props?.min ? { min: props?.min } : null)}
-        {...(props?.max ? { max: props?.max } : null)}
-        {...(props?.format ? { format: props?.format } : null)}
-        onChange={onChange}
-      />
-      {showValidations ? (
-        <div
-          style={{
-            color: "red",
-          }}
-        >
-          {invalidMessages.message}
-        </div>
-      ) : (
-        <div></div>
-      )}
-    </>
+    props?.show !== false && (
+      <>
+        <TimePickerComponent
+          {...(props?.className ? { className: props?.className } : null)}
+          placeholder={props?.placeholder || "Select a Time"}
+          {...(props?.value ? { value: props?.value } : null)}
+          {...(props?.step ? { step: props?.step } : null)}
+          {...(props?.min ? { min: props?.min } : null)}
+          {...(props?.max ? { max: props?.max } : null)}
+          {...(props?.format ? { format: props?.format } : null)}
+          onChange={onChange}
+        />
+        {showValidations ? (
+          <div
+            style={{
+              color: "red",
+            }}
+          >
+            {invalidMessages.message}
+          </div>
+        ) : (
+          <div></div>
+        )}
+      </>
+    )
   );
 }
+
+TimePicker.propTypes = {
+  className: PropTypes.string,
+  show: PropTypes.bool,
+  value: PropTypes.string.isRequired,
+  min: PropTypes.func,
+  max: PropTypes.func,
+  step: PropTypes.number,
+  onChange: PropTypes.func.isRequired,
+  format: PropTypes.string,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool.isRequired,
+  validStatus: PropTypes.object,
+  saveTrigger: PropTypes.number.isRequired,
+  setValidStatus: PropTypes.func,
+};

@@ -84,6 +84,7 @@ export default function Test1(props) {
       />
       Float:
       <TextField
+        show={true}
         type="float"
         name="some_field"
         onChange={onChange}
