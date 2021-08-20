@@ -6,6 +6,7 @@ import {
   validateFloatNumber,
 } from "../../lib/utils/convertors";
 import lodash from "lodash";
+import PropTypes from "prop-types";
 
 export default function TextField(props) {
   const [value, setValue] = useState(props?.value || null);
@@ -143,24 +144,44 @@ export default function TextField(props) {
   };
 
   return (
-    <>
-      <input
-        name={props?.name}
-        type={props?.type === "password" ? "password" : "text"}
-        value={value}
-        onChange={onChange}
-      />
-      {props?.showValidation !== false && showValidations ? (
-        <div
-          style={{
-            color: "red",
-          }}
-        >
-          {invalidMessages.message}
-        </div>
-      ) : (
-        <div></div>
-      )}
-    </>
+    props?.show !== false && (
+      <>
+        <input
+          {...(props?.className ? { className: props?.className } : null)}
+          name={props?.name}
+          {...(props?.disabled ? { disabled: props?.disabled } : null)}
+          type={props?.type === "password" ? "password" : "text"}
+          value={props?.value?.[props?.name]}
+          onChange={onChange}
+        />
+        {props?.showValidation !== false && showValidations ? (
+          <div
+            style={{
+              color: "red",
+            }}
+          >
+            {invalidMessages.message}
+          </div>
+        ) : (
+          <div></div>
+        )}
+      </>
+    )
   );
 }
+
+TextField.propTypes = {
+  className: PropTypes.string,
+  show: PropTypes.bool,
+  disabled: PropTypes.bool,
+  name: PropTypes.string.isRequired,
+  showValidation: PropTypes.bool,
+  type: PropTypes.string,
+  value: PropTypes.string.isRequired,
+  required: PropTypes.bool,
+  min: PropTypes.number,
+  max: PropTypes.number,
+  validStatus: PropTypes.object,
+  saveTrigger: PropTypes.number.isRequired,
+  setValidStatus: PropTypes.func,
+};

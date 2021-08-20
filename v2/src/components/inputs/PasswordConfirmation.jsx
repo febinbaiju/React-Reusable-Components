@@ -36,7 +36,7 @@ export default function PasswordConfirmation(props) {
     }
   }, [value, runValidations]);
   return (
-    <>
+    <div {...(props?.className ? { className: props?.className } : null)}>
       Password:
       <TextField
         name="password"
@@ -69,6 +69,6 @@ export default function PasswordConfirmation(props) {
           Password & Confirm password are not same
         </div>
       )}
-    </>
+    </div>
   );
 }
