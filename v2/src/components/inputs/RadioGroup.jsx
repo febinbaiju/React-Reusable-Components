@@ -3,6 +3,7 @@ import { useState } from "react";
 import lodash from "lodash";
 import { convertFieldName } from "../../lib/utils/convertors";
 import PropTypes from "prop-types";
+import React from "react";
 
 export default function RadioGroup(props) {
   const [value, setValue] = useState(props?.value || null);
@@ -76,17 +77,16 @@ export default function RadioGroup(props) {
       <>
         {props?.data?.map((item, index) => {
           return (
-            <>
+            <React.Fragment key={index}>
               {item?.label}{" "}
               <input
-                key={index}
                 type="radio"
                 {...(item?.checked ? { defaultChecked: true } : null)}
                 value={item?.value}
                 name={props?.name}
                 onChange={onChange}
               />
-            </>
+            </React.Fragment>
           );
         })}
         {showValidations ? (
@@ -109,7 +109,7 @@ RadioGroup.propTypes = {
   className: PropTypes.string,
   show: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
   required: PropTypes.bool.isRequired,
   validStatus: PropTypes.object,
   saveTrigger: PropTypes.number.isRequired,

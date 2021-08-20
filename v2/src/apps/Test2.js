@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import Button from "../components/buttons/Button";
 import PasswordConfirmation from "../components/inputs/PasswordConfirmation";
 
 export default function Test2(props) {
@@ -8,10 +9,9 @@ export default function Test2(props) {
   const handleSubmit = () => {
     // required
     setSaveTrigger(saveTrigger + 1);
-    console.log(validStatus);
-    const validated = validStatus && !Object.keys(validStatus).some(
-      (item) => validStatus[item] === false
-    );
+    const validated =
+      validStatus &&
+      !Object.keys(validStatus).some((item) => validStatus[item] === false);
 
     if (validated) {
       alert("Valid");
@@ -27,9 +27,12 @@ export default function Test2(props) {
         validStatus={validStatus}
         setValidStatus={setValidStatus}
       />
-                  <button type="submit" onClick={handleSubmit}>
-        Submit
-      </button>
+      <Button
+        name="submit"
+        type="submit"
+        value="Check"
+        onClick={handleSubmit}
+      />
     </>
   );
 }

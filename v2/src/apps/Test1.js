@@ -3,10 +3,11 @@ import PasswordConfirmation from "../components/inputs/PasswordConfirmation";
 import TextField from "../components/inputs/TextField";
 import { api } from "../lib/api/base";
 import TimePicker from "../components/inputs/TimePicker";
+import Button from "../components/buttons/Button";
 
 export default function Test1(props) {
   const [value, setValue] = useState({
-    first_name: ''
+    first_name: "",
   });
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [validStatus, setValidStatus] = useState();
@@ -47,13 +48,14 @@ export default function Test1(props) {
       <TextField
         name="first_name"
         type="text"
+        value={""}
         onChange={onChange}
         saveTrigger={saveTrigger} // required
         validStatus={validStatus} // required
         setValidStatus={setValidStatus} // required
         setValue={setValue}
       />
-      {/* Last Name:
+      Last Name:
       <TextField
         name="last_name"
         onChange={onChange}
@@ -66,7 +68,7 @@ export default function Test1(props) {
       />
       Email:
       <TextField
-        //disabled
+        disabled
         type="email"
         name="email"
         onChange={onChange}
@@ -112,10 +114,13 @@ export default function Test1(props) {
         setValidStatus={setValidStatus} // required
         onChange={onChange}
         required
-      /> */}
-      <button type="submit" onClick={handleSubmit}>
-        Submit
-      </button>
+      />
+      <Button
+        name="submit"
+        type="submit"
+        value="Check"
+        onClick={handleSubmit}
+      />
     </>
   );
 }
