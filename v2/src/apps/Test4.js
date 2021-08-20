@@ -1,11 +1,24 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { React } from "react";
+import RadioGroup from "../components/inputs/RadioGroup";
 import TimePicker from "../components/inputs/TimePicker";
 
 export default function Test4(props) {
   const [value, setValue] = useState();
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [validStatus, setValidStatus] = useState();
+
+  const data = useMemo(() => [
+    { label: "Male", value: "0" },
+    { label: "Female", value: "1" },
+    { label: "Others", value: "2" },
+  ]);
+
+  const data2 = useMemo(() => [
+    { label: "Group 1", value: "3" },
+    { label: "Group 2", value: "4" },
+    { label: "Group 3", value: "5" },
+  ]);
 
   const onChange = (e, field_name = null) => {
     setValue({
@@ -31,14 +44,28 @@ export default function Test4(props) {
 
   return (
     <>
-      <TimePicker
-        name="timepicker"
+    <div>
+      <RadioGroup
+        name="gender"
+        data={data}
         saveTrigger={saveTrigger} // required
         validStatus={validStatus} // required
         setValidStatus={setValidStatus} // required
         onChange={onChange}
         required
       />
+      </div>
+      <div>
+      <RadioGroup
+        name="group"
+        data={data2}
+        saveTrigger={saveTrigger} // required
+        validStatus={validStatus} // required
+        setValidStatus={setValidStatus} // required
+        onChange={onChange}
+        required
+      />
+      </div>
       <button type="submit" onClick={handleSubmit}>
         Submit
       </button>

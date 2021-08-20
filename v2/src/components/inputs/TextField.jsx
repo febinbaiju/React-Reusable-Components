@@ -149,6 +149,7 @@ export default function TextField(props) {
         <input
           {...(props?.className ? { className: props?.className } : null)}
           name={props?.name}
+          {...(props?.disabled ? { disabled: props?.disabled } : null)}
           type={props?.type === "password" ? "password" : "text"}
           value={props?.value?.[props?.name]}
           onChange={onChange}
@@ -172,6 +173,7 @@ export default function TextField(props) {
 TextField.propTypes = {
   className: PropTypes.string,
   show: PropTypes.bool,
+  disabled: PropTypes.bool,
   name: PropTypes.string.isRequired,
   showValidation: PropTypes.bool,
   type: PropTypes.string,

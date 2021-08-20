@@ -2,9 +2,11 @@ export default function RadioGroup(props)
 {
     return(
         <>
-        <input type="radio" name={props?.name} />
-        <input type="radio" name={props?.name} />
-        <input type="radio" name={props?.name} />
+        {
+            props?.data?.map((item, index) => {
+                return(<>{item?.label} <input type="radio" value={props?.value} name={props?.name} /></>)
+            })
+        }
         </>
     )
 }

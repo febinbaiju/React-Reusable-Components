@@ -63,6 +63,7 @@ export default function Test1(props) {
       />
       Email:
       <TextField
+        //disabled
         type="email"
         name="email"
         onChange={onChange}
