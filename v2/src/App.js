@@ -4,6 +4,7 @@ import Test1 from "./apps/Test1";
 import Test2 from "./apps/Test2";
 import Test3 from "./apps/Test3";
 import Test4 from "./apps/Test4";
+import Test5 from "./apps/Test5";
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
       </Switch>
       <Switch>
         <Route exact path="/test4" component={Test4} />
+      </Switch>
+      <Switch>
+        <Route exact path="/test5" component={Test5} />
       </Switch>
     </Router>
   );

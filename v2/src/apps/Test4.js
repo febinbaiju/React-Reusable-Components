@@ -1,13 +1,13 @@
 import { useMemo, useState } from "react";
 import { React } from "react";
+import Button from "../components/buttons/Button";
 import RadioGroup from "../components/inputs/RadioGroup";
 import TimePicker from "../components/inputs/TimePicker";
 
 export default function Test4(props) {
   const [value, setValue] = useState({
-      group: 4
-  }
-  );
+    group: 4,
+  });
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [validStatus, setValidStatus] = useState();
 
@@ -33,8 +33,6 @@ export default function Test4(props) {
   const handleSubmit = () => {
     // required
     setSaveTrigger(saveTrigger + 1);
-
-    console.log(validStatus);
     const validated =
       validStatus &&
       !Object.keys(validStatus).some((item) => validStatus[item] === false);
@@ -49,32 +47,35 @@ export default function Test4(props) {
 
   return (
     <>
-    <div>
-      <RadioGroup
-        name="gender"
-        data={data}
-        saveTrigger={saveTrigger} // required
-        validStatus={validStatus} // required
-        setValidStatus={setValidStatus} // required
-        setValue={setValue} // required
-        onChange={onChange}
-        required
-      />
+      <div>
+        <RadioGroup
+          name="gender"
+          data={data}
+          saveTrigger={saveTrigger} // required
+          validStatus={validStatus} // required
+          setValidStatus={setValidStatus} // required
+          setValue={setValue} // required
+          onChange={onChange}
+          required
+        />
       </div>
       <div>
-      <RadioGroup
-        name="group"
-        data={data2}
-        saveTrigger={saveTrigger} // required
-        validStatus={validStatus} // required
-        setValidStatus={setValidStatus} // required
-        onChange={onChange}
-        required
-      />
+        <RadioGroup
+          name="group"
+          data={data2}
+          saveTrigger={saveTrigger} // required
+          validStatus={validStatus} // required
+          setValidStatus={setValidStatus} // required
+          onChange={onChange}
+          required
+        />
       </div>
-      <button type="submit" onClick={handleSubmit}>
-        Submit
-      </button>
+      <Button
+      name="submit"
+      type="submit"
+      value="Check"
+      onClick={handleSubmit}
+      />
     </>
   );
 }

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { React } from "react";
+import Button from "../components/buttons/Button";
 import TimePicker from "../components/inputs/TimePicker";
 
 export default function Test4(props) {
-    //TODO: fix time validation
+  //TODO: fix time validation
   const [value, setValue] = useState();
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [validStatus, setValidStatus] = useState();
@@ -40,9 +41,12 @@ export default function Test4(props) {
         onChange={onChange}
         required
       />
-      <button type="submit" onClick={handleSubmit}>
-        Submit
-      </button>
+      <Button
+        name="submit"
+        type="submit"
+        value="Check"
+        onClick={handleSubmit}
+      />
     </>
   );
 }

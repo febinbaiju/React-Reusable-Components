@@ -22,7 +22,7 @@ class Api {
 
     if (response.ok) {
       success = true;
-      let data = await response.text();
+      let data = await response.json();
       return [true, data];
     } else {
       return [success, null];

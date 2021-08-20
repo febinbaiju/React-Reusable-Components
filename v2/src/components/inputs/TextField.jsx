@@ -17,7 +17,7 @@ export default function TextField(props) {
     validated: true,
   });
   const [showValidations, setShowValidations] = useState(false);
-  const runValidations = useMemo(() => true);
+  const runValidations = useMemo(() => !props?.disabled === true);
 
   useEffect(() => {
     if (props?.saveTrigger !== prevSaveTrigger) {
