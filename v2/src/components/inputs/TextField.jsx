@@ -151,7 +151,7 @@ export default function TextField(props) {
           name={props?.name}
           {...(props?.disabled ? { disabled: props?.disabled } : null)}
           type={props?.type === "password" ? "password" : "text"}
-          value={props?.value?.[props?.name]}
+          value={props?.value}
           onChange={onChange}
         />
         {props?.showValidation !== false && showValidations ? (
