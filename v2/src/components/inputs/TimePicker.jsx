@@ -84,7 +84,7 @@ export default function DatePicker(props) {
         {...(props?.format ? { format: props?.format } : null)}
         onChange={onChange}
       />
-      {props?.showValidation !== false && showValidations ? (
+      {showValidations ? (
         <div
           style={{
             color: "red",
