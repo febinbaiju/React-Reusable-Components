@@ -4,7 +4,10 @@ import RadioGroup from "../components/inputs/RadioGroup";
 import TimePicker from "../components/inputs/TimePicker";
 
 export default function Test4(props) {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState({
+      group: 4
+  }
+  );
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [validStatus, setValidStatus] = useState();
 
@@ -16,7 +19,7 @@ export default function Test4(props) {
 
   const data2 = useMemo(() => [
     { label: "Group 1", value: "3" },
-    { label: "Group 2", value: "4" },
+    { label: "Group 2", value: "4", checked: true },
     { label: "Group 3", value: "5" },
   ]);
 
@@ -30,6 +33,8 @@ export default function Test4(props) {
   const handleSubmit = () => {
     // required
     setSaveTrigger(saveTrigger + 1);
+
+    console.log(validStatus);
     const validated =
       validStatus &&
       !Object.keys(validStatus).some((item) => validStatus[item] === false);
@@ -51,6 +56,7 @@ export default function Test4(props) {
         saveTrigger={saveTrigger} // required
         validStatus={validStatus} // required
         setValidStatus={setValidStatus} // required
+        setValue={setValue} // required
         onChange={onChange}
         required
       />

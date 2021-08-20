@@ -5,7 +5,9 @@ import { api } from "../lib/api/base";
 import TimePicker from "../components/inputs/TimePicker";
 
 export default function Test1(props) {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState({
+    first_name: ''
+  });
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [validStatus, setValidStatus] = useState();
 
@@ -49,8 +51,9 @@ export default function Test1(props) {
         saveTrigger={saveTrigger} // required
         validStatus={validStatus} // required
         setValidStatus={setValidStatus} // required
+        setValue={setValue}
       />
-      Last Name:
+      {/* Last Name:
       <TextField
         name="last_name"
         onChange={onChange}
@@ -109,7 +112,7 @@ export default function Test1(props) {
         setValidStatus={setValidStatus} // required
         onChange={onChange}
         required
-      />
+      /> */}
       <button type="submit" onClick={handleSubmit}>
         Submit
       </button>
