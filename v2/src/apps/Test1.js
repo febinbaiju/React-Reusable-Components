@@ -2,16 +2,17 @@ import { React, useEffect, useState } from "react";
 import PasswordConfirmation from "../components/inputs/PasswordConfirmation";
 import TextField from "../components/inputs/TextField";
 import { api } from "../lib/api/base";
+import TimePicker from "../components/inputs/TimePicker";
 
 export default function Test1(props) {
   const [value, setValue] = useState();
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [validStatus, setValidStatus] = useState();
 
-  const onChange = (e) => {
+  const onChange = (e, field_name = null) => {
     setValue({
       ...value,
-      [e.target.name]: e.target.value,
+      [field_name ? field_name : e.target.name]: e.target.value,
     });
   };
 
@@ -92,11 +93,14 @@ export default function Test1(props) {
         required
         min={2}
       />
-      <PasswordConfirmation
+
+      <TimePicker
+        name="timepicker"
+        saveTrigger={saveTrigger} // required
+        validStatus={validStatus} // required
+        setValidStatus={setValidStatus} // required
         onChange={onChange}
-        saveTrigger={saveTrigger}
-        validStatus={validStatus}
-        setValidStatus={setValidStatus}
+        required
       />
       <button type="submit" onClick={handleSubmit}>
         Submit
