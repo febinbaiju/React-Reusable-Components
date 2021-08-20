@@ -44,7 +44,6 @@ export default function Test1(props) {
       <TextField
         name="first_name"
         type="text"
-        value={value}
         onChange={onChange}
         saveTrigger={saveTrigger} // required
         validStatus={validStatus} // required
@@ -53,7 +52,6 @@ export default function Test1(props) {
       Last Name:
       <TextField
         name="last_name"
-        value={value}
         onChange={onChange}
         saveTrigger={saveTrigger} // required
         validStatus={validStatus} // required
@@ -66,7 +64,6 @@ export default function Test1(props) {
       <TextField
         type="email"
         name="email"
-        value={value}
         onChange={onChange}
         saveTrigger={saveTrigger} // required
         validStatus={validStatus} // required
@@ -78,7 +75,6 @@ export default function Test1(props) {
       <TextField
         type="number"
         name="age"
-        value={value}
         onChange={onChange}
         saveTrigger={saveTrigger} // required
         validStatus={validStatus} // required
@@ -89,7 +85,6 @@ export default function Test1(props) {
       <TextField
         type="float"
         name="some_field"
-        value={value}
         onChange={onChange}
         saveTrigger={saveTrigger} // required
         validStatus={validStatus} // required

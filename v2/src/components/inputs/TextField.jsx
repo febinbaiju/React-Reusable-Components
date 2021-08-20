@@ -147,7 +147,7 @@ export default function TextField(props) {
       <input
         name={props?.name}
         type={props?.type === "password" ? "password" : "text"}
-        value={value}
+        value={props?.value?.[props?.name]}
         onChange={onChange}
       />
       {props?.showValidation !== false && showValidations ? (
