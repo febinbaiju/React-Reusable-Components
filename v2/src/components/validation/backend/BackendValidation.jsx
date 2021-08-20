@@ -19,9 +19,13 @@ export default function BackendValidation(props) {
 
   useEffect(() => {}, [props?.values]);
   return props?.errors && props?.show && showValidations ? (
-    <div style={{
-        color: 'red'
-    }}>{props?.errors?.[props?.field_name]}</div>
+    <div
+      style={{
+        color: "red",
+      }}
+    >
+      {props?.errors?.[props?.field_name]}
+    </div>
   ) : (
     <></>
   );
