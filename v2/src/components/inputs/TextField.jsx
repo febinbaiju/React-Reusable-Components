@@ -145,6 +145,7 @@ export default function TextField(props) {
   return (
     <>
       <input
+        {...(props?.className ? { className: props?.className } : null)}
         name={props?.name}
         type={props?.type === "password" ? "password" : "text"}
         value={props?.value?.[props?.name]}

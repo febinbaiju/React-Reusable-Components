@@ -76,6 +76,7 @@ export default function DatePicker(props) {
   return (
     <>
       <TimePickerComponent
+        {...(props?.className ? { className: props?.className } : null)}
         placeholder={props?.placeholder || "Select a Time"}
         {...(props?.value ? { value: props?.value } : null)}
         {...(props?.min ? { min: props?.min } : null)}

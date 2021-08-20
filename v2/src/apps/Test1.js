@@ -93,7 +93,13 @@ export default function Test1(props) {
         required
         min={2}
       />
-
+      <PasswordConfirmation
+        className="hello"
+        onChange={onChange}
+        saveTrigger={saveTrigger}
+        validStatus={validStatus}
+        setValidStatus={setValidStatus}
+      />
       <TimePicker
         name="timepicker"
         saveTrigger={saveTrigger} // required
