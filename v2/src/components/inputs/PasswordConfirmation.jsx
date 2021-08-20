@@ -5,6 +5,7 @@ export default function PasswordConfirmation(props) {
   const [value, setValue] = useState();
   const [prevSaveTrigger, setPrevSaveTrigger] = useState(props?.saveTrigger);
   const [runValidations, setRunValidations] = useState(false);
+  const [showPrimaryValidation, setShowPrimaryValidation] = useState();
 
   const onChange = (e) => {
     setValue({
@@ -12,6 +13,15 @@ export default function PasswordConfirmation(props) {
       [e.target.name]: e.target.value,
     });
     props?.onChange(e);
+  };
+
+  const middleValidation = (e) => {
+    if (e?.password_confirmation) {
+      setShowPrimaryValidation(true);
+    } else {
+      setShowPrimaryValidation(false);
+    }
+    props?.setValidStatus(e);
   };
 
   useEffect(() => {
@@ -41,34 +51,34 @@ export default function PasswordConfirmation(props) {
       <TextField
         name="password"
         type="password"
-        value={value}
+        value={value?.password}
         onChange={onChange}
         saveTrigger={props?.saveTrigger} // required
         validStatus={props?.validStatus} // required
-        setValidStatus={props?.setValidStatus} // required
+        setValidStatus={middleValidation} // required
         required
       />
       Confirm Password:
       <TextField
         name="password_confirmation"
         type="password"
-        value={value}
+        value={value?.password_confirmation}
         onChange={onChange}
         saveTrigger={props?.saveTrigger} // required
         validStatus={props?.validStatus} // required
-        setValidStatus={props?.setValidStatus} // required
-        showValidation={false}
+        setValidStatus={middleValidation} // required
         required
       />
-      {props?.validStatus?.confirmation_password === false && (
-        <div
-          style={{
-            color: "red",
-          }}
-        >
-          Password & Confirm password are not same
-        </div>
-      )}
+      {props?.validStatus?.confirmation_password === false &&
+        showPrimaryValidation && (
+          <div
+            style={{
+              color: "red",
+            }}
+          >
+            Password & Confirm password are not same
+          </div>
+        )}
     </div>
   );
 }

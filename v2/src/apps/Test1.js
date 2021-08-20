@@ -7,7 +7,8 @@ import Button from "../components/buttons/Button";
 
 export default function Test1(props) {
   const [value, setValue] = useState({
-    first_name: "",
+    first_name: "febin",
+    last_name: "baiju"
   });
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [validStatus, setValidStatus] = useState();
@@ -48,16 +49,18 @@ export default function Test1(props) {
       <TextField
         name="first_name"
         type="text"
-        value={""}
+        value={value?.first_name}
         onChange={onChange}
         saveTrigger={saveTrigger} // required
         validStatus={validStatus} // required
         setValidStatus={setValidStatus} // required
         setValue={setValue}
+        required
       />
       Last Name:
       <TextField
         name="last_name"
+        value={value?.last_name}
         onChange={onChange}
         saveTrigger={saveTrigger} // required
         validStatus={validStatus} // required
