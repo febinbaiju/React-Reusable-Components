@@ -16,7 +16,7 @@ export default function PasswordConfirmation(props) {
   };
 
   const middleValidation = (e) => {
-    if (e.password_confirmation) {
+    if (e?.password_confirmation) {
       setShowPrimaryValidation(true);
     } else {
       setShowPrimaryValidation(false);
