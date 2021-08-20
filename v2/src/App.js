@@ -1,8 +1,9 @@
-import './App.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Test1 from './apps/Test1';
-import Test2 from './apps/Test2';
-import Test3 from './apps/Test3';
+import "./App.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Test1 from "./apps/Test1";
+import Test2 from "./apps/Test2";
+import Test3 from "./apps/Test3";
+import Test4 from "./apps/Test4";
 
 function App() {
   return (
@@ -15,6 +16,9 @@ function App() {
       </Switch>
       <Switch>
         <Route exact path="/test3" component={Test3} />
+      </Switch>
+      <Switch>
+        <Route exact path="/test4" component={Test4} />
       </Switch>
     </Router>
   );

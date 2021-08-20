@@ -3,7 +3,6 @@ import { React } from "react";
 import TimePicker from "../components/inputs/TimePicker";
 
 export default function Test4(props) {
-    //TODO: fix time validation
   const [value, setValue] = useState();
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [validStatus, setValidStatus] = useState();
