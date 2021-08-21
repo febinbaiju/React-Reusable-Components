@@ -10,14 +10,12 @@ import FrontendValidation from "../components/validation/frontend/FrontendValida
 export default function Test6(props) {
   const [value, setValue] = useState({
     user_name: "febin",
-    email: "",
+    last_name: "",
   });
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [validStatus, setValidStatus] = useState();
   const [backendValidations, setBackendValidations] = useState([]);
   const [secondaryValidations, setSecondaryValidations] = useState([]);
-  const [secondaryValidationMessages, setSecondaryValidationMessages] =
-    useState({});
 
   const onChange = (e, field_name = null) => {
     setValue({
@@ -48,17 +46,26 @@ export default function Test6(props) {
       };
     }
 
-    if (validated && value?.last_name === value?.user_name) {
-      valid = false;
-      obj = {
-        ...obj,
-        last_name: {
-          status: false,
-          message: "Name cannot be same as user name",
-        },
-      };
+    if (validated) {
+      if (value?.last_name === value?.user_name) {
+        valid = false;
+        obj = {
+          ...obj,
+          last_name: {
+            status: false,
+            message: "Name cannot be same as user name",
+          },
+        };
+      } else if (value?.last_name === "test") {
+        obj = {
+          ...obj,
+          last_name: {
+            status: false,
+            message: "Name cannot be same as test",
+          },
+        };
+      }
     }
-
     if (!valid) {
       setSecondaryValidations(obj);
     } else {
@@ -138,6 +145,7 @@ export default function Test6(props) {
         validStatus={validStatus} // required
         setValidStatus={setValidStatus} // required
         setValue={setValue}
+        required
       />
       <FrontendValidation
         errors={secondaryValidations}
