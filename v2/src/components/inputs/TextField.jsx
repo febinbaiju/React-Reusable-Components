@@ -115,7 +115,11 @@ export default function TextField(props) {
     } else {
       setValid(false);
     }
-    if (typeof props?.setValidStatus === "function") {
+    if(props?.index !== undefined && typeof props?.setValidStatus === "function")
+    {
+      props?.setValidStatus(props?.name, props?.index, validated)
+    }
+    else if (typeof props?.setValidStatus === "function") {
       if (!lodash.has(props.validStatus, props?.name))
         props.setValidStatus({
           ...props?.validStatus,
