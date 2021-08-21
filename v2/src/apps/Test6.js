@@ -4,7 +4,6 @@ import { api } from "../lib/api/base";
 import Button from "../components/buttons/Button";
 import BackendValidation from "../components/validation/backend/BackendValidation";
 import { useEffect } from "react";
-import lodash from "lodash";
 import FrontendValidation from "../components/validation/frontend/FrontendValidation";
 
 export default function Test6(props) {
@@ -57,6 +56,7 @@ export default function Test6(props) {
           },
         };
       } else if (value?.last_name === "test") {
+        valid = false;
         obj = {
           ...obj,
           last_name: {
@@ -151,6 +151,13 @@ export default function Test6(props) {
         errors={secondaryValidations}
         field_name={"last_name"}
         show={validated}
+        values={value}
+        saveTrigger={saveTrigger}
+      />
+      <BackendValidation
+        errors={backendValidations}
+        field_name={"user_name"}
+        show={validated && secondaryValidated}
         values={value}
         saveTrigger={saveTrigger}
       />
