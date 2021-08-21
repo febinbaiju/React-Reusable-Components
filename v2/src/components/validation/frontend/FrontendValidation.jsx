@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
-export default function BackendValidation(props) {
+export default function FrontendValidation(props) {
   const [prevSaveTrigger, setPrevSaveTrigger] = useState(props?.saveTrigger);
   const [showValidations, setShowValidations] = useState(false);
   const [fieldValue, setFieldValue] = useState();
@@ -23,14 +23,14 @@ export default function BackendValidation(props) {
         color: "red",
       }}
     >
-      {props?.errors?.[props?.field_name]}
+      {props?.errors?.[props?.field_name]?.message}
     </div>
   ) : (
     <></>
   );
 }
 
-BackendValidation.propTypes = {
+FrontendValidation.propTypes = {
   className: PropTypes.string,
   show: PropTypes.bool,
   values: PropTypes.array.isRequired,
