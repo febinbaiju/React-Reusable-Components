@@ -1,10 +1,11 @@
-import { React, useMemo, useState } from "react";
+import { React, useEffect, useMemo, useState } from "react";
 import Button from "../components/buttons/Button";
 import useTruckDetails from "../hooks/truck/Truck";
 
 export default function Test9(props) {
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [validStatus, setValidStatus] = useState();
+  const [value, setValue] = useState()
 
   const waterGrades = useMemo(() => [
     { label: "Grade 1", value: "0" },
@@ -12,16 +13,37 @@ export default function Test9(props) {
     { label: "Grade 3", value: "2" },
   ]);
 
+  useEffect(()=>{
+    console.log(value);
+  },[value])
+
   const [truckCount, setTruckCount, truckLayout] = useTruckDetails({
     water_grade_data: waterGrades,
     saveTrigger: saveTrigger,
     validStatus: validStatus,
-    // count: 2
+    value: value,
+    setValue: setValue,
+    count: 1,
     setValidStatus: setValidStatus,
   });
 
   const validated = useMemo(() => {
-    let valid = true
+    var valid = true;
+    if (validStatus) {
+      let arr = Object.values(validStatus);
+      for (var i = 0, iLen = arr.length; i < iLen; i++) {
+        let o = arr[i];
+
+        for (var p in o) {
+          if (o.hasOwnProperty(p) && o[p] == false) {
+            valid = false;
+            break;
+          }
+        }
+        if (!valid) break;
+      }
+    } else valid = false;
+
     return valid
   });
 

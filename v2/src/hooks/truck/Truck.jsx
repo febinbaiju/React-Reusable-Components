@@ -17,19 +17,21 @@ export default function useTruckDetails(props) {
 
     for (let i = 0; i < count; i++) {
       trucks.push({
-        vehicle_registration_number: "",
-        licence_number: "",
-        model: "",
-        water_grade: "",
-        maximum_capacity: "",
-        minimum_capacity: "",
-        iot_device: "",
+        vehicle_registration_number:
+          value?.[i]?.vehicle_registration_number || "",
+        licence_number: value?.[i]?.licence_number || "",
+        model: value?.[i]?.model || "",
+        water_grade: value?.[i]?.water_grade || "",
+        maximum_capacity: value?.[i]?.maximum_capacity || "",
+        minimum_capacity: value?.[i]?.minimum_capacity || "",
+        iot_device: value?.[i]?.iot_device || "",
       });
       validity.push({});
     }
     setValue(trucks);
+    props?.setValue(trucks);
     setValidStatus(validity);
-    props?.setValidStatus(validity)
+    props?.setValidStatus(validity);
   }, [count]);
 
   const onChange = (e, field_name = null, key) => {
@@ -47,7 +49,7 @@ export default function useTruckDetails(props) {
         [key]: e.target.value,
       }));
     }
-
+    props?.setValue(trucks);
     setValue(trucks);
   };
 
@@ -67,21 +69,22 @@ export default function useTruckDetails(props) {
           ...datas[key],
           [field_name]: validated,
         },
-      }))
+      }));
     }
   };
 
   const removeField = (key) => {
     const trucks = [...value];
     trucks.splice(key, 1);
+    props?.setValue(trucks);
     setValue(trucks);
 
     const validity = Object.values(validStatus);
     validity.splice(key, 1);
     let newObj = Object.assign({}, validity);
     setValidStatus(newObj);
-    props?.setValidStatus(newObj)
-    setCount(count - 1)
+    props?.setValidStatus(newObj);
+    setCount(count - 1);
   };
 
   const truckLayout = useMemo(() => {
@@ -136,7 +139,7 @@ export default function useTruckDetails(props) {
             <DropDown
               index={key}
               name="water_grade"
-              data={props?.water_grade_data?.filter((item, w_f_key) => {
+              data={props?.water_grade_data?.filter((item) => {
                 let selected = Object.keys(selectedWaterGrade)
                   .filter((sel_key) => {
                     return sel_key != key;
@@ -154,7 +157,6 @@ export default function useTruckDetails(props) {
               validStatus={validStatus} // required
               setValidStatus={setMiddleValidStatus}
               setValue={setValue}
-              required
             />
             Maximum Capacity*:
             <TextField
