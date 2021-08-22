@@ -35,7 +35,9 @@ export default function TextField(props) {
         if (!value) {
           validated = false;
           setInvalidMessages({
-            message: convertFieldName(props?.name) + " is required",
+            message: props?.customErrorMessage
+              ? props?.customErrorMessage
+              : convertFieldName(props?.name) + " is required",
             validated: false,
           });
         }
@@ -44,11 +46,12 @@ export default function TextField(props) {
         if (!value || value.toString().length < props?.min) {
           validated = false;
           setInvalidMessages({
-            message:
-              convertFieldName(props?.name) +
-              " should be minimum " +
-              props?.min +
-              " characters",
+            message: props?.customErrorMessage
+              ? props?.customErrorMessage
+              : convertFieldName(props?.name) +
+                " should be minimum " +
+                props?.min +
+                " characters",
             validated: false,
           });
         }
@@ -57,11 +60,12 @@ export default function TextField(props) {
         if (!value || value.toString().length > props?.max) {
           validated = false;
           setInvalidMessages({
-            message:
-              convertFieldName(props?.name) +
-              " should not be more than " +
-              props?.max +
-              " characters",
+            message: props?.customErrorMessage
+              ? props?.customErrorMessage
+              : convertFieldName(props?.name) +
+                " should not be more than " +
+                props?.max +
+                " characters",
             validated: false,
           });
         }
@@ -76,8 +80,9 @@ export default function TextField(props) {
             if (!validateNumber(value)) {
               validated = false;
               setInvalidMessages({
-                message:
-                  convertFieldName(props?.name) + " should be only numbers",
+                message: props?.customErrorMessage
+                  ? props?.customErrorMessage
+                  : convertFieldName(props?.name) + " should be only numbers",
                 validated: false,
               });
             }
@@ -95,8 +100,9 @@ export default function TextField(props) {
             if (!validateFloatNumber(value)) {
               validated = false;
               setInvalidMessages({
-                message:
-                  convertFieldName(props?.name) + "is invalid Float number",
+                message: props?.customErrorMessage
+                  ? props?.customErrorMessage
+                  : convertFieldName(props?.name) + "is invalid Float number",
                 validated: false,
               });
             }
@@ -115,11 +121,12 @@ export default function TextField(props) {
     } else {
       setValid(false);
     }
-    if(props?.index !== undefined && typeof props?.setValidStatus === "function")
-    {
-      props?.setValidStatus(props?.name, props?.index, validated)
-    }
-    else if (typeof props?.setValidStatus === "function") {
+    if (
+      props?.index !== undefined &&
+      typeof props?.setValidStatus === "function"
+    ) {
+      props?.setValidStatus(props?.name, props?.index, validated);
+    } else if (typeof props?.setValidStatus === "function") {
       if (!lodash.has(props.validStatus, props?.name))
         props.setValidStatus({
           ...props?.validStatus,
@@ -188,4 +195,5 @@ TextField.propTypes = {
   validStatus: PropTypes.object,
   saveTrigger: PropTypes.number.isRequired,
   setValidStatus: PropTypes.func,
+  customErrorMessage: PropTypes.string,
 };

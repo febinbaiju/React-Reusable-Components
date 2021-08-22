@@ -1,18 +1,19 @@
 import { Fragment } from "react";
-import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import Button from "../../components/buttons/Button";
 import TextField from "../../components/inputs/TextField";
+import DropDown from "../../components/dropdown/DropDown";
 
 export default function useTruckDetails(props) {
   const [value, setValue] = useState();
-  const [saveTrigger, setSaveTrigger] = useState(0);
   const [validStatus, setValidStatus] = useState();
-  const [count, setCount] = useState(props?.count || 2);
+  const [count, setCount] = useState(props?.count || 0);
+
+  const [selectedWaterGrade, setSelectedWaterGrade] = useState({});
 
   useEffect(() => {
     let trucks = [];
     let validity = [];
-
-    console.log("here");
 
     for (let i = 0; i < count; i++) {
       trucks.push({
@@ -24,21 +25,11 @@ export default function useTruckDetails(props) {
         minimum_capacity: "",
         iot_device: "",
       });
-      validity.push({
-        vehicle_registration_number: "",
-      });
+      validity.push({});
     }
     setValue(trucks);
     setValidStatus(validity);
   }, [count]);
-
-  //   useEffect(() => {
-  //     if (props?.saveTrigger !== prevSaveTrigger) {
-  //       setPrevSaveTrigger(props?.saveTrigger);
-  //       // run validations
-  //       setShowValidations(true);
-  //     }
-  //   }, [props?.saveTrigger]);
 
   const onChange = (e, field_name = null, key) => {
     let trucks = [...value];
@@ -48,42 +39,38 @@ export default function useTruckDetails(props) {
       [field_name]: e.target.value,
     };
     trucks[key] = modified_truckObj;
+
+    if (field_name === "water_grade") {
+      setSelectedWaterGrade((data) => ({
+        ...data,
+        [key]: e.target.value,
+      }));
+    }
+
     setValue(trucks);
   };
 
   const setMiddleValidStatus = (field_name, key, validated) => {
     if (field_name && key !== undefined) {
-      let validity = [...validStatus];
-      console.log(validity);
-      validity[key] = {
-        ...validity[key],
-        [field_name]: validated,
-      };
-      setValidStatus(validity);
+      setValidStatus((datas) => ({
+        ...datas,
+        [key]: {
+          ...datas[key],
+          [field_name]: validated,
+        },
+      }));
     }
   };
 
-    useEffect(()=>{
-        console.log(validStatus);
-    },[validStatus])
+  const removeField = (key) => {
+    const trucks = [...value];
+    trucks.splice(key, 1);
+    setValue(trucks);
 
-//   useEffect(() => {
-//     console.log(value);
-//   }, [value]);
-
-  const handleSubmit = () => {
-    // required
-    setSaveTrigger(saveTrigger + 1);
-    const validated =
-      validStatus &&
-      !Object.keys(validStatus).some((item) => validStatus[item] === false);
-
-    if (validated) {
-      alert("Valid");
-      console.log(value);
-    } else {
-      alert("Invalid");
-    }
+    const validity = Object.values(validStatus);
+    validity.splice(key, 1);
+    let newObj = Object.assign({}, validity);
+    setValidStatus(newObj);
   };
 
   const truckLayout = useMemo(() => {
@@ -102,38 +89,61 @@ export default function useTruckDetails(props) {
               type="text"
               value={truckObj?.vehicle_registration_number}
               onChange={(e) => onChange(e, e.target.name, key)}
-              saveTrigger={saveTrigger} // required
+              saveTrigger={props?.saveTrigger} // required
               validStatus={validStatus} // required
               setValidStatus={setMiddleValidStatus}
               setValue={setValue}
               required
             />
-            {/* Licence Number*:
+            Licence Number*:
             <TextField
               index={key}
               name="licence_number"
               type="text"
+              customErrorMessage="Please enter licence number"
               value={truckObj?.licence_number}
               onChange={(e) => onChange(e, e.target.name, key)}
-              saveTrigger={saveTrigger} // required
+              saveTrigger={props?.saveTrigger} // required
               validStatus={validStatus} // required
               setValidStatus={setMiddleValidStatus}
               setValue={setValue}
               required
-            /> */}
-            {/* Model *:
+            />
+            Model *:
             <TextField
               index={key}
               name="model"
               type="text"
               value={truckObj?.model}
               onChange={(e) => onChange(e, e.target.name, key)}
-              saveTrigger={saveTrigger} // required
+              saveTrigger={props?.saveTrigger} // required
               validStatus={validStatus} // required
-              setValidStatus={() =>
-                setMiddleValidStatus(key)
-              }
+              setValidStatus={setMiddleValidStatus}
               setValue={setValue}
+            />
+            Water Grade:
+            <DropDown
+              index={key}
+              name="water_grade"
+              data={props?.water_grade_data?.filter((item, w_f_key) => {
+                let selected = Object.keys(selectedWaterGrade)
+                  .filter((sel_key) => {
+                    return sel_key != key;
+                  })
+                  .map((sel_key) => {
+                    return selectedWaterGrade[sel_key];
+                  });
+                return !selected.includes(item?.value);
+              })}
+              value={props?.water_grade_data.find((wa) => {
+                return wa?.value === value?.[key]?.water_grade;
+              })}
+              onChange={(e) => onChange(e, "water_grade", key)}
+              saveTrigger={props?.saveTrigger} // required
+              validStatus={validStatus} // required
+              setValidStatus={setMiddleValidStatus}
+              setValue={setValue}
+              required
             />
             Maximum Capacity*:
             <TextField
@@ -142,11 +152,9 @@ export default function useTruckDetails(props) {
               type="text"
               value={truckObj?.maximum_capacity}
               onChange={(e) => onChange(e, e.target.name, key)}
-              saveTrigger={saveTrigger} // required
+              saveTrigger={props?.saveTrigger}
               validStatus={validStatus} // required
-              setValidStatus={() =>
-                setMiddleValidStatus("minimum_capacity", key)
-              }
+              setValidStatus={setMiddleValidStatus}
               setValue={setValue}
               required
             />
@@ -157,19 +165,24 @@ export default function useTruckDetails(props) {
               type="text"
               value={truckObj?.minimum_capacity}
               onChange={(e) => onChange(e, e.target.name, key)}
-              saveTrigger={saveTrigger} // required
+              saveTrigger={props?.saveTrigger}
               validStatus={validStatus} // required
-              setValidStatus={() =>
-                setMiddleValidStatus("minimum_capacity", key)
-              } // required
+              setValidStatus={setMiddleValidStatus}
               setValue={setValue}
               required
-            /> */}
+            />
+            <Button
+              type="button"
+              onClick={() => {
+                removeField(key);
+              }}
+              value={"Remove"}
+            />
           </div>
         </Fragment>
       );
     });
-  }, [value, saveTrigger]);
+  }, [value, props?.saveTrigger]);
 
   return [count, setCount, truckLayout];
 }
