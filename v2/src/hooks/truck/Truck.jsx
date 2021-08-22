@@ -71,6 +71,7 @@ export default function useTruckDetails(props) {
     validity.splice(key, 1);
     let newObj = Object.assign({}, validity);
     setValidStatus(newObj);
+    setCount(count - 1)
   };
 
   const truckLayout = useMemo(() => {
