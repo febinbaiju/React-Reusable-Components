@@ -17,6 +17,9 @@ function App() {
         <Route exact path="/" component={Test1} />
       </Switch>
       <Switch>
+        <Route exact path="/test1" component={Test1} />
+      </Switch>
+      <Switch>
         <Route exact path="/test2" component={Test2} />
       </Switch>
       <Switch>
