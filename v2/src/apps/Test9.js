@@ -15,15 +15,19 @@ export default function Test9(props) {
   const [truckCount, setTruckCount, truckLayout] = useTruckDetails({
     water_grade_data: waterGrades,
     saveTrigger: saveTrigger,
+    validStatus: validStatus,
     // count: 2
+    setValidStatus: setValidStatus,
+  });
+
+  const validated = useMemo(() => {
+    let valid = true
+    return valid
   });
 
   const handleSubmit = () => {
     // required
     setSaveTrigger(saveTrigger + 1);
-    const validated =
-      validStatus &&
-      !Object.keys(validStatus).some((item) => validStatus[item] === false);
 
     if (validated) {
       alert("Valid");

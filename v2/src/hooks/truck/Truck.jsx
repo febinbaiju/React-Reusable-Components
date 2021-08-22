@@ -29,6 +29,7 @@ export default function useTruckDetails(props) {
     }
     setValue(trucks);
     setValidStatus(validity);
+    props?.setValidStatus(validity)
   }, [count]);
 
   const onChange = (e, field_name = null, key) => {
@@ -59,6 +60,14 @@ export default function useTruckDetails(props) {
           [field_name]: validated,
         },
       }));
+
+      props?.setValidStatus((datas) => ({
+        ...datas,
+        [key]: {
+          ...datas[key],
+          [field_name]: validated,
+        },
+      }))
     }
   };
 
@@ -71,6 +80,7 @@ export default function useTruckDetails(props) {
     validity.splice(key, 1);
     let newObj = Object.assign({}, validity);
     setValidStatus(newObj);
+    props?.setValidStatus(newObj)
     setCount(count - 1)
   };
 
