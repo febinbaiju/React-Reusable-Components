@@ -3,7 +3,7 @@ import { useState } from "react";
 import lodash from "lodash";
 import { convertFieldName } from "../../lib/utils/convertors";
 import PropTypes from "prop-types";
-import React from "react";
+import Select from "react-select";
 
 export default function DropDown(props) {
   const [value, setValue] = useState();
@@ -24,8 +24,13 @@ export default function DropDown(props) {
   }, []);
 
   const onChange = (e) => {
-    setValue(e.target.value);
-    props?.onChange(e, props?.name);
+    setValue(e.value);
+    let eU = {
+      target: {
+        value: e.value,
+      },
+    };
+    props?.onChange(eU, props?.name);
   };
 
   useEffect(() => {
@@ -56,7 +61,12 @@ export default function DropDown(props) {
       } else {
         setValid(false);
       }
-      if (typeof props?.setValidStatus === "function") {
+      if (
+        props?.index !== undefined &&
+        typeof props?.setValidStatus === "function"
+      ) {
+        props?.setValidStatus(props?.name, props?.index, validated);
+      } else if (typeof props?.setValidStatus === "function") {
         if (!lodash.has(props.validStatus, props?.name))
           props.setValidStatus({
             ...props?.validStatus,
@@ -75,21 +85,12 @@ export default function DropDown(props) {
   return (
     props?.show !== false && (
       <>
-        <select onChange={onChange}>
-          <option value={""}>--Select--</option>
-          {props?.data?.map((item, index) => {
-            return (
-              <React.Fragment key={index}>
-                <option
-                  {...(item?.checked ? { selected: true } : null)}
-                  value={item?.value}
-                >
-                  {item?.label}
-                </option>
-              </React.Fragment>
-            );
-          })}
-        </select>
+        <Select
+          name={props?.name}
+          value={props?.value}
+          options={props?.data}
+          onChange={(option) => onChange(option)}
+        />
         {showValidations ? (
           <div
             style={{

@@ -14,7 +14,7 @@ export default function Test8(props) {
 
   const data = useMemo(() => [
     { label: "Male", value: "0" },
-    { label: "Female", value: "1", checked: true },
+    { label: "Female", value: "1" },
     { label: "Others", value: "2" },
   ]);
 
@@ -52,8 +52,6 @@ export default function Test8(props) {
           name="gender"
           data={data.filter((item, key) => {
               return item.value !== value?.group
-          }).map((item, index) =>{
-              return item
           })}
           saveTrigger={saveTrigger} // required
           validStatus={validStatus} // required
@@ -65,11 +63,9 @@ export default function Test8(props) {
       </div>
       <div>
         <DropDown
-          name="gender"
+          name="group"
           data={data.filter((item, key) => {
             return item.value !== value?.gender
-        }).map((item, index) =>{
-            return item
         })}
           saveTrigger={saveTrigger} // required
           validStatus={validStatus} // required

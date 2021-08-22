@@ -8,6 +8,7 @@ import Test5 from "./apps/Test5";
 import Test6 from "./apps/Test6";
 import Test7 from "./apps/Test7";
 import Test8 from "./apps/Test8";
+import Test9 from "./apps/Test9";
 
 function App() {
   return (
@@ -35,6 +36,9 @@ function App() {
       </Switch>
       <Switch>
         <Route exact path="/test8" component={Test8} />
+      </Switch>
+      <Switch>
+        <Route exact path="/test9" component={Test9} />
       </Switch>
     </Router>
   );
