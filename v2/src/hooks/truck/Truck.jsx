@@ -84,6 +84,12 @@ export default function useTruckDetails(props) {
     let newObj = Object.assign({}, validity);
     setValidStatus(newObj);
     props?.setValidStatus(newObj);
+
+    const removeSelectedWaterGrade = {...selectedWaterGrade}
+    delete removeSelectedWaterGrade[key]
+    const refreshObj = Object.values(removeSelectedWaterGrade)
+    setSelectedWaterGrade(Object.assign({}, refreshObj))
+
     setCount(count - 1);
   };
 
