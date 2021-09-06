@@ -1,14 +1,11 @@
-import { React, useEffect, useState } from "react";
-import PasswordConfirmation from "../components/inputs/PasswordConfirmation";
+import { React, useMemo, useState } from "react";
 import TextField from "../components/inputs/TextField";
-import { api } from "../lib/api/base";
-import TimePicker from "../components/inputs/TimePicker";
 import Button from "../components/buttons/Button";
 
-export default function Test1(props) {
+export default function Login(props) {
   const [value, setValue] = useState({
-    first_name: "febin",
-    last_name: "baiju"
+    first_name: "",
+    last_name: ""
   });
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [validStatus, setValidStatus] = useState();
@@ -20,20 +17,17 @@ export default function Test1(props) {
     });
   };
 
-  // useEffect(()=>{
-  //   api.get('/api/test').then(([success, response])=>{
-  //     console.log("test", response, success)
-  //   }).catch(err => {
-  //     console.log(err);
-  //   })
-  // },[])
+  const validated = useMemo(
+    () =>
+      validStatus &&
+      !Object.keys(validStatus).some((item) => validStatus[item] === false),
+    [validStatus]
+  );
+
 
   const handleSubmit = () => {
     // required
     setSaveTrigger(saveTrigger + 1);
-    const validated =
-      validStatus &&
-      !Object.keys(validStatus).some((item) => validStatus[item] === false);
 
     if (validated) {
       alert("Valid");
@@ -49,12 +43,12 @@ export default function Test1(props) {
       <TextField
         name="first_name"
         type="text"
-        value={value?.first_name}
-        onChange={onChange}
+        value={value?.first_name} //required
+        onChange={onChange} //required
         saveTrigger={saveTrigger} // required
         validStatus={validStatus} // required
         setValidStatus={setValidStatus} // required
-        setValue={setValue}
+        setValue={setValue} // required
         required
       />
       Last Name:
@@ -69,55 +63,7 @@ export default function Test1(props) {
         min={2}
         max={5}
       />
-      Email:
-      <TextField
-        disabled
-        type="email"
-        name="email"
-        onChange={onChange}
-        saveTrigger={saveTrigger} // required
-        validStatus={validStatus} // required
-        setValidStatus={setValidStatus} // required
-        required
-        min={2}
-      />
-      Age:
-      <TextField
-        type="number"
-        name="age"
-        onChange={onChange}
-        saveTrigger={saveTrigger} // required
-        validStatus={validStatus} // required
-        setValidStatus={setValidStatus} // required
-        required
-      />
-      Float:
-      <TextField
-        show={true}
-        type="float"
-        name="some_field"
-        onChange={onChange}
-        saveTrigger={saveTrigger} // required
-        validStatus={validStatus} // required
-        setValidStatus={setValidStatus} // required
-        required
-        min={2}
-      />
-      <PasswordConfirmation
-        className="hello"
-        onChange={onChange}
-        saveTrigger={saveTrigger}
-        validStatus={validStatus}
-        setValidStatus={setValidStatus}
-      />
-      <TimePicker
-        name="timepicker"
-        saveTrigger={saveTrigger} // required
-        validStatus={validStatus} // required
-        setValidStatus={setValidStatus} // required
-        onChange={onChange}
-        required
-      />
+      
       <Button
         name="submit"
         type="submit"

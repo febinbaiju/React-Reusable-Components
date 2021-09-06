@@ -3,9 +3,10 @@ import { useState } from "react";
 import lodash from "lodash";
 import { convertFieldName } from "../../lib/utils/convertors";
 import PropTypes from "prop-types";
-import Select from "react-select";
+import React from "react";
 
-export default function DropDown(props) {
+export default function RadioGroup(props) {
+  const [value, setValue] = useState(props?.value || null);
   const [prevSaveTrigger, setPrevSaveTrigger] = useState(props?.saveTrigger);
   const [valid, setValid] = useState(false);
   const [invalidMessages, setInvalidMessages] = useState({
@@ -13,15 +14,18 @@ export default function DropDown(props) {
     validated: true,
   });
   const [showValidations, setShowValidations] = useState(false);
-  const runValidations = useMemo(() => true);
+  const runValidations = useMemo(() => {
+    let key = lodash.findKey(props?.data, { checked: true });
+    if (key) {
+      return false;
+    } else {
+      return true;
+    }
+  }, [props?.data]);
 
   const onChange = (e) => {
-    let eU = {
-      target: {
-        value: props?.multiple ? e : e?.value,
-      },
-    };
-    props?.onChange(eU, props?.name);
+    setValue(e.target.value);
+    props?.onChange(e, props?.name);
   };
 
   useEffect(() => {
@@ -36,7 +40,7 @@ export default function DropDown(props) {
     var validated = true;
 
     if (runValidations) {
-      if (props?.required && !props?.value) {
+      if (props?.required && !value) {
         validated = false;
         setInvalidMessages({
           message: convertFieldName(props?.name) + " is required",
@@ -57,13 +61,14 @@ export default function DropDown(props) {
         typeof props?.setValidStatus === "function"
       ) {
         props?.setValidStatus(props?.name, props?.index, validated);
-      } else if (typeof props?.setValidStatus === "function") {
-        if (!lodash.has(props.validStatus, props?.name)) {
+      }
+      else if (typeof props?.setValidStatus === "function") {
+        if (!lodash.has(props.validStatus, props?.name))
           props.setValidStatus({
             ...props?.validStatus,
             [props?.name]: validated,
           });
-        } else if (props?.validStatus[props?.name] !== validated) {
+        else if (props?.validStatus[props?.name] !== validated) {
           props.setValidStatus({
             ...props?.validStatus,
             [props?.name]: validated,
@@ -71,26 +76,25 @@ export default function DropDown(props) {
         }
       }
     }
-  }, [props?.required, props?.value, props?.name, props?.saveTrigger]);
+  }, [props?.required, value]);
 
   return (
     props?.show !== false && (
       <>
-        <Select
-          {...(props?.className ? { className: props?.className } : null)}
-          {...(props?.multiple ? { isMulti: props?.multiple } : null)}
-          {...(props?.maxLimit
-            ? {
-                isOptionDisabled: (option) =>
-                  props?.value?.length >= props?.maxLimit,
-              }
-            : null)}
-          name={props?.name}
-          value={props?.value}
-          {...(props?.clearable ? { isClearable: props?.clearable } : null)}
-          options={props?.data}
-          onChange={(option) => onChange(option)}
-        />
+        {props?.data?.map((item, index) => {
+          return (
+            <React.Fragment key={index}>
+              {item?.label}{" "}
+              <input
+                type="radio"
+                {...(item?.checked ? { defaultChecked: true } : null)}
+                value={item?.value}
+                name={props?.name}
+                onChange={onChange}
+              />
+            </React.Fragment>
+          );
+        })}
         {showValidations ? (
           <div
             style={{
@@ -107,12 +111,12 @@ export default function DropDown(props) {
   );
 }
 
-DropDown.propTypes = {
+RadioGroup.propTypes = {
   className: PropTypes.string,
   show: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   data: PropTypes.array.isRequired,
-  required: PropTypes.bool,
+  required: PropTypes.bool.isRequired,
   validStatus: PropTypes.object,
   saveTrigger: PropTypes.number.isRequired,
   setValidStatus: PropTypes.func,

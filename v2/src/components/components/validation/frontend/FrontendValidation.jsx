@@ -1,28 +1,21 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
-export default function BackendValidation(props) {
+export default function FrontendValidation(props) {
   const [prevSaveTrigger, setPrevSaveTrigger] = useState(props?.saveTrigger);
-  const [showValidations, setShowValidations] = useState(true);
+  const [showValidations, setShowValidations] = useState(false);
   const [fieldValue, setFieldValue] = useState();
 
   useEffect(() => {
     if (props?.saveTrigger !== prevSaveTrigger) {
       setPrevSaveTrigger(props?.saveTrigger);
       setFieldValue(props?.values?.[props?.field_name]);
-    }
-  }, [props?.saveTrigger]);
-
-  useEffect(() => {
-    if (
-      props?.errors?.[props?.field_name] &&
-      props?.values?.[props?.field_name] == fieldValue
-    ) {
+      // run validations
       setShowValidations(true);
-    } else {
+    } else if (props?.values?.[props?.field_name] !== fieldValue) {
       setShowValidations(false);
     }
-  }, [props?.errors, props?.values]);
+  }, [props?.saveTrigger, props?.values]);
 
   return props?.errors && props?.show && showValidations ? (
     <div
@@ -30,16 +23,14 @@ export default function BackendValidation(props) {
         color: "red",
       }}
     >
-      {props?.customErrorMessage
-        ? props?.customErrorMessage
-        : props?.errors?.[props?.field_name]}
+      {props?.errors?.[props?.field_name]?.message}
     </div>
   ) : (
     <></>
   );
 }
 
-BackendValidation.propTypes = {
+FrontendValidation.propTypes = {
   className: PropTypes.string,
   show: PropTypes.bool,
   values: PropTypes.array.isRequired,

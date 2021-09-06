@@ -1,11 +1,19 @@
-import { useEffect, useMemo } from "react";
-import { useState } from "react";
+import { React, useEffect, useState } from "react";
+import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
+import "../../../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+import "../../../node_modules/@syncfusion/ej2-lists/styles/material.css";
+import "../../../node_modules/@syncfusion/ej2-react-calendars/styles/material.css";
+import { enableRipple } from "@syncfusion/ej2-base";
+import { TimePickerComponent } from "@syncfusion/ej2-react-calendars";
 import lodash from "lodash";
+import { useMemo } from "react";
 import { convertFieldName } from "../../lib/utils/convertors";
 import PropTypes from "prop-types";
-import Select from "react-select";
 
-export default function DropDown(props) {
+enableRipple(true);
+
+export default function TimePicker(props) {
+  const [value, setValue] = useState(props?.value || null);
   const [prevSaveTrigger, setPrevSaveTrigger] = useState(props?.saveTrigger);
   const [valid, setValid] = useState(false);
   const [invalidMessages, setInvalidMessages] = useState({
@@ -16,12 +24,11 @@ export default function DropDown(props) {
   const runValidations = useMemo(() => true);
 
   const onChange = (e) => {
-    let eU = {
-      target: {
-        value: props?.multiple ? e : e?.value,
-      },
-    };
-    props?.onChange(eU, props?.name);
+    setValue({
+      ...value,
+      [props?.name]: e.target.value,
+    });
+    props?.onChange(e, props?.name);
   };
 
   useEffect(() => {
@@ -34,9 +41,8 @@ export default function DropDown(props) {
 
   useEffect(() => {
     var validated = true;
-
     if (runValidations) {
-      if (props?.required && !props?.value) {
+      if (props?.required && !value) {
         validated = false;
         setInvalidMessages({
           message: convertFieldName(props?.name) + " is required",
@@ -57,13 +63,14 @@ export default function DropDown(props) {
         typeof props?.setValidStatus === "function"
       ) {
         props?.setValidStatus(props?.name, props?.index, validated);
-      } else if (typeof props?.setValidStatus === "function") {
-        if (!lodash.has(props.validStatus, props?.name)) {
+      }
+      else if (typeof props?.setValidStatus === "function") {
+        if (!lodash.has(props.validStatus, props?.name))
           props.setValidStatus({
             ...props?.validStatus,
             [props?.name]: validated,
           });
-        } else if (props?.validStatus[props?.name] !== validated) {
+        else if (props?.validStatus[props?.name] !== validated) {
           props.setValidStatus({
             ...props?.validStatus,
             [props?.name]: validated,
@@ -71,25 +78,20 @@ export default function DropDown(props) {
         }
       }
     }
-  }, [props?.required, props?.value, props?.name, props?.saveTrigger]);
+  }, [props?.required, value]);
 
   return (
     props?.show !== false && (
       <>
-        <Select
+        <TimePickerComponent
           {...(props?.className ? { className: props?.className } : null)}
-          {...(props?.multiple ? { isMulti: props?.multiple } : null)}
-          {...(props?.maxLimit
-            ? {
-                isOptionDisabled: (option) =>
-                  props?.value?.length >= props?.maxLimit,
-              }
-            : null)}
-          name={props?.name}
-          value={props?.value}
-          {...(props?.clearable ? { isClearable: props?.clearable } : null)}
-          options={props?.data}
-          onChange={(option) => onChange(option)}
+          placeholder={props?.placeholder || "Select a Time"}
+          {...(props?.value ? { value: props?.value } : null)}
+          {...(props?.step ? { step: props?.step } : null)}
+          {...(props?.min ? { min: props?.min } : null)}
+          {...(props?.max ? { max: props?.max } : null)}
+          {...(props?.format ? { format: props?.format } : null)}
+          onChange={onChange}
         />
         {showValidations ? (
           <div
@@ -107,12 +109,17 @@ export default function DropDown(props) {
   );
 }
 
-DropDown.propTypes = {
+TimePicker.propTypes = {
   className: PropTypes.string,
   show: PropTypes.bool,
+  value: PropTypes.string.isRequired,
+  min: PropTypes.func,
+  max: PropTypes.func,
+  step: PropTypes.number,
   onChange: PropTypes.func.isRequired,
-  data: PropTypes.array.isRequired,
-  required: PropTypes.bool,
+  format: PropTypes.string,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool.isRequired,
   validStatus: PropTypes.object,
   saveTrigger: PropTypes.number.isRequired,
   setValidStatus: PropTypes.func,

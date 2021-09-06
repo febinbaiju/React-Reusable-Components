@@ -1,0 +1,8 @@
+.e-checkbox-wrapper.e-info .e-frame.e-check,
+.e-checkbox-wrapper.e-info .e-checkbox:focus + .e-frame.e-check { /* csslint allow: adjoining-classes */
+  background-color: #2196f3;
+}
+
+.e-checkbox-wrapper.e-info:hover .e-frame.e-check { /* csslint allow: adjoining-classes */
+  background-color: #0b7dda;
+}
