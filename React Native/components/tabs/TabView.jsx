@@ -1,22 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Text, View } from "react-native";
+import GestureRecognizer from "react-native-swipe-gestures";
 
 const TabView = (props) => {
-
   const [currentTab, setCurrentTab] = useState(props?.defaultTab || 0);
 
-  const [commonStyles] = useState({
+  useEffect(() => {
+    if (typeof props?.setCurrentTab === "function")
+      props?.setCurrentTab(currentTab || props?.defaultTab);
+  }, [currentTab]);
+
+  const commonStyles = {
     fontFamily: "inter-bold",
     textAlign: "center",
     padding: 10,
-  });
+  };
 
   const tabSwitch = (tabID) => {
     setCurrentTab(tabID);
   };
 
+  const config = {
+    velocityThreshold: 0.5,
+    directionalOffsetThreshold: 80,
+  };
+
+  const tabCount = useMemo(() => {
+    return props?.tabs?.length;
+  }, [props?.tabs]);
+
   return (
     <>
+      {/* <GestureRecognizer
+      onSwipeRight={() => {
+        var nextTab = currentTab - 1;
+        nextTab = nextTab === -1 ? tabCount - 1 : nextTab;
+        tabSwitch(nextTab);
+      }}
+      onSwipeLeft={() => {
+        var nextTab = currentTab + 1;
+        nextTab = nextTab > tabCount - 1 ? 0 : nextTab;
+        tabSwitch(nextTab);
+      }}
+      config={config}
+    > */}
       <View
         style={{
           flexDirection: "row",
@@ -66,6 +93,7 @@ const TabView = (props) => {
         })}
       </View>
       {props?.tabs[currentTab]?.scene()}
+      {/* </GestureRecognizer> */}
     </>
   );
 };

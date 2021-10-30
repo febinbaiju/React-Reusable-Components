@@ -218,6 +218,7 @@ export default function TextField(props) {
             />
           )}
           <TextInput
+            {...(props?.innerRef ? { ref: props?.innerRef } : null)}
             {...(props?.showValidation !== false &&
             showValidations &&
             !valid &&

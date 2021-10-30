@@ -50,6 +50,8 @@ export default function PasswordConfirmationField(props) {
           placeholder="Password"
           name="password"
           type="password"
+          min="8"
+          max="25"
           current_value={props?.password}
           onChange={props?.onChange}
           saveTrigger={props?.saveTrigger} // required
@@ -66,6 +68,8 @@ export default function PasswordConfirmationField(props) {
           placeholder="Confirm Password"
           name="confirm_password"
           type="password"
+          min="8"
+          max="25"
           current_value={props?.confirm_password}
           onChange={props?.onChange}
           saveTrigger={props?.saveTrigger} // required

@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import bookWaterStyles from "../../styles/BookWater";
-import lodash from "lodash";
+import lodash, { reduce } from "lodash";
 import { Text } from "react-native";
 
 export default function DropDown(props) {
@@ -16,6 +16,12 @@ export default function DropDown(props) {
   });
   const [showValidations, setShowValidations] = useState(false);
   const runValidations = useMemo(() => !props?.disabled === true);
+
+  useEffect(() => {
+    if (props?.current_value != "") {
+      setValue(props?.current_value);
+    }
+  }, [props?.current_value]);
 
   useEffect(() => {
     if (props?.saveTrigger !== prevSaveTrigger) {
@@ -84,16 +90,6 @@ export default function DropDown(props) {
     });
   }, [value, props?.name]);
 
-  let controller;
-
-  useEffect(() => {
-    if (props?.reset) {
-      if (controller) {
-        controller.reset();
-      }
-    }
-  }, [props?.reset, controller]);
-
   return (
     <>
       <DropDownPicker
@@ -108,7 +104,7 @@ export default function DropDown(props) {
               : bookWaterStyles.error_inputs
             : bookWaterStyles.inputs
         }
-        value={value || props?.current_value}
+        value={value}
         setValue={setValue}
         items={props?.data}
         setOpen={setControl}
